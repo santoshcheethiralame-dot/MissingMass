@@ -1353,3 +1353,21 @@ Santosh.
 - Repository owner: item 7 (licences).
 - E02-R001 has not run. Without it, E02 and E03 move to v1.1.
 
+## 2026-11-04 (later): licences decided; Kaggle runs handed to Kushal
+
+Santosh.
+
+**Decided:**
+- D-006 is accepted: code MIT; docs and released data CC BY 4.0. That
+  closes FREEZE-V1 item 7.
+- README has a licence section, and DATA.md no longer says "proposed".
+
+**Asked Kushal:**
+- Run the Kaggle jobs, including my runbook rows 1–4. Row 1, E02-R001 (the
+  zoo inventory, under 0.5 GPU-h), is needed before the Nov 6–8 freeze, or
+  E02/E03 move to v1.1. Rows 2–4 can wait.
+- I keep the analysis of the outputs.
+- E02-R001's notes record the request.
+- Answer freeze items 4 (confirm D-011), 5 and 6 (E05) and 18 (the PH5
+  wording in the v1.0 candidate) before Nov 6.
+

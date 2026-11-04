@@ -26,8 +26,9 @@ the vocabulary in `docs/GLOSSARY.md` ("failure mode", "catcher", "run",
 - **Status (2026-11-04):** nothing frozen. `PREREGISTRATION.md` is the v1.0
   freeze candidate (agreed FREEZE-V1 items applied). E00/E01 approved by
   Kushal (2026-10-23); gate G1 passed. Open before the Nov 6–8 freeze:
-  Kushal on items 4/5/6/18, owner on item 7 (licences), E02-R001 on Kaggle
-  (else E02/E03 move to v1.1). H3 (Kaggle LLM stack) done; E08-R001 and
+  Kushal on items 4/5/6/18; licences decided (D-006 accepted). Kushal
+  runs the Kaggle rows, incl. Santosh's E02-R001 before Nov 6 (else
+  E02/E03 move to v1.1). H3 (Kaggle LLM stack) done; E08-R001 and
   E10-R002 pilots ready for Kaggle (~Nov 10).
 
 ## Team and who I work for
@@ -203,7 +204,7 @@ PRs unless asked.
 ## Key decisions (DECISIONS.md)
 D-001 safety framing · D-002 coverage + Δ headline, counts as lower bounds ·
 D-003 venues · D-004 plain-git notebook · D-005 tiered prereg with prior
-knowledge disclosed · D-006 (proposed, needs owner) code MIT, docs/data
+knowledge disclosed · D-006 (accepted 2026-11-04) code MIT, docs/data
 CC BY 4.0 · D-007 $0 plan · D-008 estimator formula conventions · D-009
 log-linear ported, breakaway_nof1 via Rscript, Chiu-Chao left out · D-010
 realized-coverage bootstrap intervals (A accepted) + † proposals (B, for

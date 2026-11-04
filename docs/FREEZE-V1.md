@@ -23,12 +23,13 @@ candidate, with the agreed items applied.
   - **Item 18:** the PH5 wording in the v1.0 candidate is Santosh's draft
     of his proposal.
   - **Items 5 and 6:** these are on E05's page, which locks at v1.0.
-- **Section 2, the repository owner's call:** item 7, the licences.
+- **Section 2, item 7 (licences): decided.** D-006 was accepted on
+  2026-11-04: MIT for code, CC BY 4.0 for docs and released data.
 - **Section 2, can wait for the page's own freeze:** items 9, 11, 12, 14
   and 15 (E01 paper note, E06, E07, E11, E15). None of these pages locks
   at v1.0, and none sets a study-level threshold.
-- **Section 3, E02-R001 has not run.** E02 and E03 move to v1.1 unless the
-  zoo inventory runs on Kaggle before Nov 6. v1.0 then locks
+- **Section 3, E02-R001 has not run.** Kushal has been asked to run it on
+  Kaggle (runbook row 1) before Nov 6. Otherwise E02 and E03 move to v1.1. v1.0 then locks
   `PREREGISTRATION.md`, E05 and E13.
 - **Section 3, pages with no stage:** E04, E06, E07, E11 and E15–E17 are
   frozen one by one, after their pilots (v1.0 candidate, "Freeze plan").

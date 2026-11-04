@@ -15,6 +15,12 @@ The rules from `notebook/README.md` apply:
 **Before the v1 freeze, run only the rows marked "pre-freeze OK".** They
 compute no outcomes (inventories, timings, seeding checks).
 
+**Who runs what (2026-11-04).** Santosh has asked Kushal to run the Kaggle
+jobs, including Santosh's rows 1–4 below. Row 1 (E02-R001) is needed
+before the Nov 6–8 freeze; rows 2–4 can wait. Santosh keeps the analysis
+of the outputs. Run IDs keep their owner; the executor goes in the run's
+notes.
+
 ## Setup (every session)
 
 ```bash
