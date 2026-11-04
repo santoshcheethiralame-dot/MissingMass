@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | analysed (R001–R004 succeeded; awaiting Kushal's review) |
+| Status | analysed (R001–R004 succeeded; approved in Kushal's four-eyes review, 2026-10-23) |
 | Owner | Santosh |
 | Tier | core |
 | Stage | 0 infra |
