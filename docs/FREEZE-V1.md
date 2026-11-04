@@ -10,6 +10,35 @@ off in the PR, not here.
 Status on 2026-10-22: the study pre-registration is draft v0.2. Nothing is
 frozen.
 
+**Status on 2026-11-04 (Santosh).** `PREREGISTRATION.md` is now the v1.0
+candidate, with the agreed items applied.
+- **Section 1 is done.** Kushal approved E00, E01 and D-010 part A on
+  2026-10-23. His condition on D-010 A (a small-N check) is met by
+  E01-R010.
+- **Section 2, agreed and applied:** items 1, 2, 3, 8, 10, 16 and 17.
+  Item 13 is agreed and lives on E04's page.
+- **Section 2, needs Kushal before Nov 6:**
+  - **Item 4:** he approved D-011 for E02/E06 in his review (§4). Please
+    confirm it as the v1.0 decision.
+  - **Item 18:** the PH5 wording in the v1.0 candidate is Santosh's draft
+    of his proposal.
+  - **Items 5 and 6:** these are on E05's page, which locks at v1.0.
+- **Section 2, the repository owner's call:** item 7, the licences.
+- **Section 2, can wait for the page's own freeze:** items 9, 11, 12, 14
+  and 15 (E01 paper note, E06, E07, E11, E15). None of these pages locks
+  at v1.0, and none sets a study-level threshold.
+- **Section 3, E02-R001 has not run.** E02 and E03 move to v1.1 unless the
+  zoo inventory runs on Kaggle before Nov 6. v1.0 then locks
+  `PREREGISTRATION.md`, E05 and E13.
+- **Section 3, pages with no stage:** E04, E06, E07, E11 and E15–E17 are
+  frozen one by one, after their pilots (v1.0 candidate, "Freeze plan").
+- **Since the last update:**
+  - E10's R002 success bar (at least 30 of 40 pilot blind spots in
+    0.05–0.6) and the family-matched pilot were merged in #28; they lock
+    with E10 at v1.1.
+  - E08's open v1.1 points: the L3 balancing rule, Petri or the interview
+    scaffold, and the judge choice per D-017.
+
 ## 1. Results the freeze builds on (Kushal reviews)
 
 | Item | Where | What to check |

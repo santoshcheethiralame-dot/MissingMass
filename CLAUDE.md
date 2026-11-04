@@ -23,10 +23,12 @@ the vocabulary in `docs/GLOSSARY.md` ("failure mode", "catcher", "run",
 - **Venues:** arXiv + Alignment Forum Dec 2026 (M4, ~Dec 15–20); ICLR 2027
   workshop ~Feb 1; **NeurIPS 2027 main** ~May 15 (primary); fallbacks SaTML
   2028 / ICLR 2028 / TMLR (D-003).
-- **Status (2026-10-23):** nothing frozen; all of Santosh's code for Stage 2 is written and tested. Waiting on Kushal's reviews, the freeze decisions and Kaggle runs.
-  E00 R001–R004 and E01 R001–R008 done (awaiting Kushal's review); gate G1
-  passed. Prereg is draft v0.2 (interval method changed, D-010). Freeze of
-  prereg v1.0 targeted Nov 6–8.
+- **Status (2026-11-04):** nothing frozen. `PREREGISTRATION.md` is the v1.0
+  freeze candidate (agreed FREEZE-V1 items applied). E00/E01 approved by
+  Kushal (2026-10-23); gate G1 passed. Open before the Nov 6–8 freeze:
+  Kushal on items 4/5/6/18, owner on item 7 (licences), E02-R001 on Kaggle
+  (else E02/E03 move to v1.1). H3 (Kaggle LLM stack) done; E08-R001 and
+  E10-R002 pilots ready for Kaggle (~Nov 10).
 
 ## Team and who I work for
 
