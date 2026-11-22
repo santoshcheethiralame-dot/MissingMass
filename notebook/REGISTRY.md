@@ -14,8 +14,8 @@ papers.
 
 | ID | Experiment | Owner | Tier | Stage | Status | Depends on | Hypotheses | Testbed ($0 plan, D-007) | Needed by |
 |---|---|---|---|---|---|---|---|---|---|
-| [E00](experiments/E00-estimator-library.md) | Estimator library and reference validation | Santosh | core | 0 | analysed (R001–R004 done; awaiting Kushal's review) | none | — | R reference data (sandbox) | 2026-11-01 |
-| [E01](experiments/E01-simulation-study.md) | Simulation study under AI-safety violations | Santosh | core | 1 (exploratory) | analysed (R001–R008; gate G1 passed; awaiting Kushal's review) | E00 | PH2; sets † thresholds | simulation (sandbox CPU) | 2026-11-05 (freeze) |
+| [E00](experiments/E00-estimator-library.md) | Estimator library and reference validation | Santosh | core | 0 | analysed (R001–R004 done; approved by Kushal 2026-10-23) | none | — | R reference data (sandbox) | 2026-11-01 |
+| [E01](experiments/E01-simulation-study.md) | Simulation study under AI-safety violations | Santosh | core | 1 (exploratory) | analysed (R001–R010; gate G1 passed; approved by Kushal 2026-10-23) | E00 | PH2; sets † thresholds | simulation (sandbox CPU) | 2026-11-05 (freeze) |
 | [E02](experiments/E02-synthsaebench-zoo.md) | Coverage of SAEs, released seed zoo | Santosh | core | 2 | registered | E00, E01 | PH1, PH2, PH3a | SynthSAEBench zoo (Kaggle) | 2026-12-05 (preprint) |
 | [E03](experiments/E03-matcher-bakeoff.md) | Matcher bake-off and threshold diagnostics | Santosh | core | 2 | registered | E02 | PH3a | SynthSAEBench zoo (Kaggle) | 2026-12-05 |
 | [E04](experiments/E04-single-truth-test.md) | Single-truth test | Santosh + Kushal | important | 2 | registered | E03, E10 pipeline | PH3 | synthetic + local LLM | 2027-01-20 |

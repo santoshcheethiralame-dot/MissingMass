@@ -1300,3 +1300,74 @@ Kushal.
   families could sit at the floor. §3's contingency covers that.
 
 **Next:** merge, then run K10 on Kaggle (about 1–1.5 session hours).
+
+## 2026-11-04: v1.0 freeze candidate; review of the verdict fix; scoop check
+
+Santosh.
+
+**Did:**
+- **v1.0 candidate.** Applied the agreed freeze items to
+  `PREREGISTRATION.md` (items 1, 2, 3, 8, 10, 16 and 17; FREEZE-V1 has the
+  list).
+  - No † threshold is left.
+  - PH1 uses a per-cell rule for E02/E06 and a pooled rule for E09/E10.
+  - The interval part of PH2 is restricted to testbeds with N ≥ 500.
+  - PH4 and PH5 are judged against the catcher-agnostic truth.
+  - E10 has M = 40.
+  - The minimal detectable effect is reported with each verdict.
+  - Freeze plan: staged (D-015).
+  - §0 prior knowledge now lists everything seen before the freeze.
+  - PH5 is reworded per item 18. The wording is my draft, for Kushal's
+    approval.
+- `DISCLOSURE.md`: item 8 closed (30 days, extendable to 90, Kushal
+  owns it).
+- FREEZE-V1 gets a 2026-11-04 status note.
+- E00/E01 page and registry statuses now record Kushal's approval of
+  2026-10-23.
+- **Reviewed `crsafety.testbed.verdict`** (Kushal's NaN fix in #33, merged
+  without review): **approved.**
+  - A NaN bound now gives "inconclusive".
+  - An infinite bound blocks a verdict only on its open side.
+  - The old code called (−∞, x) "supported"; the fix removes that bug too.
+  - I checked eight edge cases by hand; `tests/test_testbeds.py` passes.
+- **Scoop check** (week of 2026-11-02; Santosh's turn): **no scoop found.**
+  - The check is weak: it rests on search snippets only. arXiv, OpenReview
+    and the Alignment Forum were not reachable directly (Q-D1), so Kushal
+    should repeat the OpenReview (ICLR 2027) search from his machine.
+  - To cite as method neighbours in related work, which also softens
+    "first" for "unseen-richness estimators on repeated LLM runs":
+    - Żatuchin, "Measuring Brand and Source Discovery under Repeated LLM
+      Queries: A Finite-Sample Audit" (arXiv 2609.05059): incidence-based
+      unseen-richness estimators on repeated LLM queries; marketing, no
+      planted truth.
+    - Noorani et al., "Conformal Prediction Beyond the Seen: A Missing
+      Mass Perspective" (arXiv 2506.05497): Good-Turing missing mass as a
+      stopping rule (E13).
+    - "Evaluating the Unseen Capabilities: How Many Theorems Do LLMs Know?"
+      (arXiv 2506.02058): unseen-species estimation of LLM knowledge.
+  - Our claim still stands: validated coverage for safety discovery tools
+    on planted truth, plus the failure map.
+
+**Open for the freeze (Nov 6–8):**
+- Kushal: items 4 (confirm), 5, 6 and 18.
+- Repository owner: item 7 (licences).
+- E02-R001 has not run. Without it, E02 and E03 move to v1.1.
+
+## 2026-11-04 (later): licences decided; Kaggle runs handed to Kushal
+
+Santosh.
+
+**Decided:**
+- D-006 is accepted: code MIT; docs and released data CC BY 4.0. That
+  closes FREEZE-V1 item 7.
+- README has a licence section, and DATA.md no longer says "proposed".
+
+**Asked Kushal:**
+- Run the Kaggle jobs, including my runbook rows 1–4. Row 1, E02-R001 (the
+  zoo inventory, under 0.5 GPU-h), is needed before the Nov 6–8 freeze, or
+  E02/E03 move to v1.1. Rows 2–4 can wait.
+- I keep the analysis of the outputs.
+- E02-R001's notes record the request.
+- Answer freeze items 4 (confirm D-011), 5 and 6 (E05) and 18 (the PH5
+  wording in the v1.0 candidate) before Nov 6.
+

@@ -34,9 +34,11 @@ central if E18 (frontier models) runs.
    deployed model:
    - notify the provider through its official channel (for example
      Anthropic's HackerOne programme for jailbreaks) before any preprint;
-   - the notice window is **30 days** (proposed; owner to confirm), unless the provider asks for a
-     different one. This is our choice; no AI-specific standard exists. Log
-     the reason for any change.
+   - the notice window is **30 days**, extendable to 90 on the provider's
+     request, with the reason logged (FREEZE-V1 item 8, agreed). This is our
+     choice; no AI-specific standard exists. Owner: Kushal.
+   - before the M4 preprint (about 2026-12-15), Kushal checks that no E10
+     blind spot mirrors a known weakness of a deployed product.
 4. **Canary strings.** Every released file containing attack text or
    planted-failure labels carries a canary block. Use the BIG-bench canary
    string copied from the BIG-bench repository, plus a project GUID. Canaries

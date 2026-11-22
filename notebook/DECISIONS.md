@@ -490,3 +490,15 @@ fixed first, then OLMo-2-7B (the other family) is validated, as E08 §3
 allows before the freeze.
 **Affects pre-registered analysis:** the judge line of the E08 §2 estimands.
 It is not frozen yet and locks at v1.1.
+
+## D-006 accepted: code MIT; documentation and released data CC BY 4.0 (2026-11-04)
+
+**Status:** accepted by Santosh, the repository owner. This closes
+FREEZE-V1 item 7.
+**Decision:** D-006 as proposed:
+- code stays MIT (`LICENSE`, `CITATION.cff`);
+- `docs/`, `research/` text and released data tables are CC BY 4.0;
+- upstream data with an unconfirmed licence is never redistributed; we
+  release derived statistics and a regeneration script instead.
+**Affects pre-registered analysis:** no.
+

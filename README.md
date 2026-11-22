@@ -51,3 +51,11 @@ cr.report(X)               # coverage, new items expected from K more runs, Chao
 ## Citation
 
 See [`CITATION.cff`](CITATION.cff).
+
+## Licence
+
+Code: MIT ([`LICENSE`](LICENSE)). Documentation (`docs/`, `notebook/`,
+`research/` text) and released data tables: CC BY 4.0 (decision D-006).
+Upstream data keeps its own licence and is not redistributed when that
+licence is unconfirmed.
+

@@ -35,8 +35,8 @@ revision or snapshot ID, and a sha256 for files.
 | Artefact | Location | Tier (`DISCLOSURE.md`) | Documentation | Licence |
 |---|---|---|---|---|
 | Estimator library | `src/crsafety/` | public | README, docstrings | MIT |
-| Simulation results (E01, E05) | `results/E01/`, `results/E05/` | public | datasheet | CC BY 4.0 (proposed, D-006) |
-| Detection histories (every experiment) | `results/EXX/<run>/histories/` | public | datasheet | CC BY 4.0 (proposed) |
+| Simulation results (E01, E05) | `results/E01/`, `results/E05/` | public | datasheet | CC BY 4.0 (D-006) |
+| Detection histories (every experiment) | `results/EXX/<run>/histories/` | public | datasheet | CC BY 4.0 (D-006) |
 | Our SAE replicates (E06, E11, E15) | external storage (HF, once access exists) | public | model card | MIT / Apache-2.0 per base model |
 | Audit outputs (E08, E09, E12) | external storage | public, unless upstream terms say otherwise | datasheet | per upstream |
 | Attack transcripts (E10) | external storage | public for our own monitor (after review); withheld for deployed models | datasheet + canary | CC BY 4.0 / withheld |
