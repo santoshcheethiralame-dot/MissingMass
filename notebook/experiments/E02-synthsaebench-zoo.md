@@ -170,7 +170,7 @@ contingencies.
 <!-- runs:start -->
 | Run | Title | Owner | Status | Started | Finished | Commit | Summary |
 |---|---|---|---|---|---|---|---|
-| E02-R001 | Download, checksum and inventory zoo | Santosh | planned |  |  | fa922b4+dirty |  |
+| E02-R001 | Download, checksum and inventory zoo | Santosh | succeeded | 2026-11-22 | 2026-11-22 | da0353e | Zoo complete: 5 archs x 7 L0 (15-45) x 5 seeds = 175 SAEs, width 4096, none missing; world 16384 x 768; checksums in repos.json |
 <!-- runs:end -->
 
 ## 5. Results

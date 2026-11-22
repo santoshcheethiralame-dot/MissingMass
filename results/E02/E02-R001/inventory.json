@@ -1,0 +1,42 @@
+{
+  "world_file": "synthetic_model.safetensors",
+  "n_features": 16384,
+  "d": 768,
+  "p_min": 0.0005000000237487257,
+  "p_max": 0.9151057600975037,
+  "archs": [
+    "btk",
+    "jumprelu",
+    "mat",
+    "mp",
+    "standard"
+  ],
+  "l0": [
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_saes": 175,
+  "widths": [
+    4096
+  ],
+  "missing": [],
+  "cells": 35,
+  "expected": {
+    "archs": 5,
+    "l0": 7,
+    "seeds": 5,
+    "width": 4096
+  }
+}

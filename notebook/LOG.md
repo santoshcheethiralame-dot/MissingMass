@@ -1398,3 +1398,30 @@ Santosh.
 - `PREREGISTRATION.md` has no prereg block, so `check` would not catch a
   post-freeze edit to the thresholds. Decide whether to lock it.
 - New dates for v1.0 and v1.1 at the next sync.
+
+## 2026-11-22 (later): E02-R001 run locally; the zoo is complete
+
+Santosh.
+
+**Did:** ran E02-R001 on this laptop's CPU instead of Kaggle, using cells 2–5
+of `kaggle/E02-R001-cells.md` unchanged in substance. It took 0.29 h (16 min
+of that was the 3.97 GB download) and 0 GPU-h. Outputs are in
+`results/E02/E02-R001/`: inventory, the file list with SHA-256 for both
+repos, and the manifest.
+
+**Found:**
+- **Zoo as described:** 5 architectures (btk, jumprelu, mat, mp, standard),
+  L0 15–45 in steps of 5, seeds 0–4, 175 SAEs, width 4,096, none missing.
+  The world has 16,384 features in d = 768. So E02 and E03 stay in v1.0.
+- **World version:** the world repo is v1. `scale_children_by_parent` is
+  false in its config and on all 10,880 hierarchy nodes. The decoder-based
+  oracle is identical under v1 and v2. Which world the zoo was trained on
+  is settled in R002 against `stats.json`, as the E02 contingencies say.
+- **p_i:** the config sets `compensate_probabilities=true`, so the stored
+  `firing_probabilities` are compensated per-feature rates (max 0.915;
+  10,713 of them > 0.4), not the marginal p_i in [5e-4, 0.4] that E02 §2
+  takes from the generator config.
+  - `zoo.py histories` currently writes the stored rates as the `p`
+    covariate.
+  - Fix this before R002. It affects E07's x1 and E02's exploratory p→π
+    curve; it does not affect H2a–H2d, whose truth comes from catch rates.

@@ -64,8 +64,14 @@ into `main`. Branch `santosh/prereg-v1.0-freeze` now carries it.
 - **Still needs Kushal (approve in the freeze PR):** items 5 and 6 (E05
   wording above) and item 18 (PH5 wording in `PREREGISTRATION.md`). Item 4
   stands on his review §4.
-- **Still needs a run:** E02-R001 (zoo inventory, under 0.5 GPU-h,
-  pre-freeze OK). Without it, E02 and E03 move to v1.1 (D-015).
+- **E02-R001 done (later on 2026-11-22), run locally on CPU:** the zoo is
+  complete (175 SAEs: 5 architectures × 7 L0 × 5 seeds, width 4,096, none
+  missing; world 16,384 × 768). So E02 and E03 can lock at v1.0. Two
+  findings, both outside the locked text:
+  - The Hugging Face world is v1 (`scale_children_by_parent=false`).
+  - Its `firing_probabilities` are compensated per-feature rates, not
+    marginal p_i. `zoo.py histories` must derive the marginal p_i before
+    R002 (this affects only the E07 covariate and the exploratory p→π curve).
 - **Gap, to decide together:** `tools/notebook.py freeze` hash-locks
   experiment pages only. `PREREGISTRATION.md`, which holds every
   threshold, is protected by the tag, release and DOI, but `check` would

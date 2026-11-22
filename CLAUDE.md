@@ -27,8 +27,8 @@ the vocabulary in `docs/GLOSSARY.md` ("failure mode", "catcher", "run",
   Freeze prep is on branch `santosh/prereg-v1.0-freeze` (2026-11-04
   candidate and E02-R001 cells merged; E02/E05 §2 carry the agreed
   wording; §2a now inside the lock; dry run passed). Open: Kushal on
-  items 5/6/18 (4 stands on his review); E02-R001 not run (else E02/E03
-  move to v1.1); `PREREGISTRATION.md` has no hash lock. Status note in
+  items 5/6/18 (4 stands on his review); E02-R001 done 2026-11-22 (175 SAEs,
+  none missing; E02/E03 stay in v1.0; fix marginal p_i before R002); `PREREGISTRATION.md` has no hash lock. Status note in
   `docs/FREEZE-V1.md`. H3 done; E08-R001 and E10-R002 pilots ready for
   Kaggle.
 
