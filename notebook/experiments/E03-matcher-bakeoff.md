@@ -95,7 +95,6 @@ Fixed by the zoo.
 
 ### Exclusions and missing data
 None.
-<!-- prereg:end -->
 
 ## 2a. Implementation notes (2026-10-22, before any E03 data)
 
@@ -114,6 +113,8 @@ None.
   thresholds it like M1. Tested end to end with M1–M4 on SAEs trained by
   SAELens's own runner. M5 depends on public code existing (R003).
 - `bakeoff.py --fire-counts` applies the same dead-latent removal as E02.
+
+<!-- prereg:end -->
 
 ## 3. Contingencies
 

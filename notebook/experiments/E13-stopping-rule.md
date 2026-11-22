@@ -71,7 +71,6 @@ correction.
 ### Exclusions and missing data
 Testbeds where K_max < 6 (e.g. E02) are reported separately and excluded from
 the pooled H13a figure.
-<!-- prereg:end -->
 
 ## 2a. Implementation notes (2026-10-23, before the freeze)
 
@@ -87,6 +86,8 @@ the pooled H13a figure.
   testbeds `E10-A1` and `E10-A2` (A2 marked adaptive and excluded from
   H13a).
 - The H13a CI is a bootstrap over cells (§2 allows items or cells).
+
+<!-- prereg:end -->
 
 ## 3. Contingencies
 
