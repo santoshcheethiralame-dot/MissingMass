@@ -22,7 +22,7 @@ If you'd rather swap roles, change the names here, in
 - freezing the pre-registration;
 - independent hand-labelling for judge validation (each labels the same
   100 items without seeing the other's labels; human–human κ is reported);
-- the weekly scoop check (alternate weeks);
+- the research and scouting round every 10 days, alternating (`SCOUTING.md`);
 - the abstract and conclusion;
 - final read-through of every section.
 
@@ -100,7 +100,7 @@ E15 and E06 cells.
   2. Handoffs due this week.
   3. Kaggle quota left on each account.
   4. Decisions needed (write them into `DECISIONS.md` during the call).
-  5. Whose turn for the scoop check.
+  5. Scouting round: is the last one done, and who owns the next (`SCOUTING.md`)?
 - **Daily:** a LOG entry by whoever worked, starting with their name.
 - **Friday:** `python tools/notebook.py render && python tools/notebook.py check`;
   merge open PRs; push.

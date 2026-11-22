@@ -502,3 +502,23 @@ FREEZE-V1 item 7.
   release derived statistics and a regeneration script instead.
 **Affects pre-registered analysis:** no.
 
+## D-018: A research and scouting round every 10 days, mandatory (2026-11-23)
+
+**Status:** proposed by Santosh. Kushal to accept at the next sync, because
+it changes a shared duty in `TEAM.md`.
+**Context:**
+- The weekly scoop check (RISKS.md R01) last ran on 2026-10-23.
+- The check only looked for scoops. Ideas from older ML/NLP, statistics,
+  cybersecurity and space research reached the project once, in the
+  October literature survey, and never again.
+**Options considered:**
+- Keep the weekly scoop check: it is narrow, and it lapsed anyway.
+- A monthly review: too slow to catch a scoop before M4.
+- Every 10 days with six lanes and a committed note: chosen.
+**Decision:** run the round in `docs/SCOUTING.md` every 10 days, alternating
+owners, starting 2026-11-23.
+- A round counts only when its note is committed.
+- Every lead ends in exactly one outcome.
+- A scoop is handled the same day.
+- This replaces the weekly scoop check.
+**Affects pre-registered analysis:** no.

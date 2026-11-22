@@ -6,7 +6,7 @@ and log it.
 
 | ID | Risk | L | I | Signal (trigger) | Response | Owner doc |
 |---|---|---|---|---|---|---|
-| R01 | **Scooped on Phase 1** (Gerasimov, Ghosh, Paulo and Belrose, or Kansal publish population estimates for SAEs or audits) | M | H | New arXiv paper or repo found by the weekly scoop check | Preprint fast (M4). Re-centre on the safety experiments (E08–E10), which no near-miss covers. Cite and build on it. | ROADMAP |
+| R01 | **Scooped on Phase 1** (Gerasimov, Ghosh, Paulo and Belrose, or Kansal publish population estimates for SAEs or audits) | M | H | New arXiv paper or repo found by the 10-day scouting round (`SCOUTING.md`, lane 1) | Preprint fast (M4). Re-centre on the safety experiments (E08–E10), which no near-miss covers. Cite and build on it. | ROADMAP |
 | R02 | **Coverage estimator fails in simulation** | L | H | Gate G1 | See G1: verify code, re-scope to a failure-analysis paper | E01 |
 | R03 | **Matching cannot be made reliable** | M | H | Gate G2 | Use testbeds with identity by construction; soft matching + multiple imputation; sensitivity bands | E03, E05 |
 | R04 | **AuditBench-lite organisms fail** (Gemma-2-2B cannot hold the behaviours) | M | H | E09-R002 implant verification | Pre-freeze switch to a ≤ 9B base model with QLoRA; or drop T3 (white-box) | E09 |
@@ -26,12 +26,14 @@ and log it.
 | R18 | **"Only open 7–9B models" objection** from reviewers | H | M | Reviews | Frame as a limitation; apply for credits to run E18; emphasise that the method, not the catcher, is the contribution | PAPER-PLAN |
 | R19 | **Coordination between two people** (blocked handoffs, duplicated work, merge conflicts) | M | M | A handoff late by more than a week | `docs/TEAM.md` interfaces; weekly sync; owner-only edits; small PRs | TEAM |
 
-## Scoop check (weekly)
+## Scoop check (now lane 1 of the scouting round)
 
-Search arXiv, OpenReview and the Alignment Forum for:
+The weekly scoop check is replaced by the mandatory 10-day research and
+scouting round in [`SCOUTING.md`](SCOUTING.md) (D-018, proposed 2026-11-23).
+Its lane 1 searches arXiv, OpenReview and the Alignment Forum for:
 - "capture-recapture" with LLM, audit, red team or SAE;
-- "audit coverage" / "red-team coverage";
+- "audit coverage" or "red-team coverage";
 - "unseen" with features or failure modes;
 - new papers by the near-miss authors.
 
-Record the result in `notebook/LOG.md`.
+A scoop is handled the same day (`SCOUTING.md`, "The rule").

@@ -104,8 +104,8 @@ experiment pages are owner-only edits: comment via PR, don't edit them.
 13. Left, CPU after the freeze: E05-R001–R003, E13-R001, then the CPU
     analyses of Kaggle outputs (E06-R014, E07, E04-R001, E11, E15-R004, E16).
 14. Doable any time: paper intro / related work / limitations, Fig. 1
-    concept, weekly scoop check (next ~Oct 29; one done 2026-10-23 within
-    the novelty checks).
+    concept. **Scouting round every 10 days is mandatory** (`docs/SCOUTING.md`;
+    replaces the weekly scoop check, which lapsed after 2026-10-23).
 
 ## Repository map
 
@@ -225,8 +225,8 @@ reliable (E13). Secondary SH1–SH4. † thresholds set after E01.
 ## Open questions relevant to Santosh
 Q-D1 (HF/arXiv access), Q-D2 (zoo contents), Q-D10 (Chiu-Chao formula),
 Q-D13 (SAELens seed unused), Q-D15 (Gemma Scope on Kaggle), Q-N2 (E16
-novelty), Q-N1 (E15 novelty), Q-B3 (Kaggle quota). Weekly scoop check
-alternates between the two (RISKS.md).
+novelty), Q-N1 (E15 novelty), Q-B3 (Kaggle quota). The 10-day scouting
+round alternates between the two (`docs/SCOUTING.md`).
 
 ## Working conventions learned in practice
 

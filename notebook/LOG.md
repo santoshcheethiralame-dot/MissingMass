@@ -1447,3 +1447,24 @@ now uses.
   x1, the exploratory p→π curve). It does not change H2a–H2d. The R001
   `inventory.json` keeps the stored rates (p_max 0.915) as the run's
   record.
+
+## 2026-11-23 (later): Mandatory scouting round every 10 days
+
+Santosh.
+
+**Did:** added `docs/SCOUTING.md`, a research and scouting round every 10
+days, alternating owners, with a calendar to the NeurIPS deadline. It has
+six lanes:
+1. scoops;
+2. near competitors;
+3. new leads;
+4. old ML/NLP methods;
+5. math and statistics outside ML;
+6. cybersecurity and space research.
+
+Proposed as D-018. It replaces the weekly scoop check, which lapsed after
+2026-10-23; RISKS, TEAM, OPEN-QUESTIONS (Q-N4) and CLAUDE.md now point to
+it.
+
+**Next:** round 1 (Santosh) is due today, 2026-11-23. Kushal to accept
+D-018.
