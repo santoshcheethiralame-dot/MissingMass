@@ -190,6 +190,38 @@ def ichao2(X):
     return chao2(d) + extra
 
 
+def chiu_chao_q1(X):
+    """Singleton count estimated from Q2, Q3, Q4 (Chiu and Chao 2016, PeerJ
+    4:e1634, Eq. 5), for when observed singletons may be spurious:
+    2 Q2^2 / (3 Q3) + 2 Q2 (Q2 / (3 Q3) - Q3 / (4 Q4)).
+
+    The paper states it for abundance counts f_k with large n; it is applied
+    here to incidence counts Q_k (the same binomial form, n -> K). Eq. 5
+    drops the finite-sample factor (n - 2) / (n - 1) of its Eq. 4b, which is
+    not small at K = 5. NaN when Q3 or Q4 is 0. Not validated in E00 (Q-D10
+    answered 2026-11-23; whether E05 (c) and E04 H4c use it is open).
+    """
+    d = _data(X)
+    Q2, Q3, Q4 = d.Q(2), d.Q(3), d.Q(4)
+    if Q3 == 0 or Q4 == 0:
+        return np.nan
+    return 2 * Q2**2 / (3 * Q3) + 2 * Q2 * (Q2 / (3 * Q3) - Q3 / (4 * Q4))
+
+
+def chao2_adj(X):
+    """Chao2 with Q1 replaced by ``chiu_chao_q1`` (Chiu and Chao 2016, Eq. 6a
+    if Q2 > 0, else Eq. 6b; n -> K)."""
+    d = _data(X)
+    K, Q2 = d.K, d.Q(2)
+    q1 = chiu_chao_q1(d)
+    if np.isnan(q1):
+        return np.nan
+    base = d.S - d.Q(1) + q1
+    if Q2 > 0:
+        return base + (K - 1) / K * q1**2 / (2 * Q2)
+    return base + q1 * (q1 - 1) / (2 * (Q2 + 1))
+
+
 def jackknife(X, order=1):
     """Incidence jackknife (Burnham-Overton; vegan::specpool form)."""
     d = _data(X)

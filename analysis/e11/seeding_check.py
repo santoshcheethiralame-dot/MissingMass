@@ -97,7 +97,7 @@ def main():
     res = dict(rows=rows, model=a.hf or "tiny local HookedTransformer (4 layers, d=64, random weights)",
                init_controls_W_dec=ok_i, data_controls_batch=ok_d, passed=ok_i and ok_d,
                sae_lens=sae_lens.__version__, torch=torch.__version__)
-    (out / "seeding_check.json").write_text(json.dumps(res, indent=2) + "\n")
+    (out / "seeding_check.json").write_text(json.dumps(res, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: v for k, v in res.items() if k != "rows"}, indent=2))
     if m is not None:
         manifest.finish(m, outputs=[(out / "seeding_check.json").resolve().relative_to(ROOT)],

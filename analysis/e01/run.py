@@ -143,7 +143,7 @@ def main():
     ap.add_argument("--n-sim", type=int, default=None, help="override n_sim (smoke tests only)")
     ap.add_argument("--out", default=None, help="output directory (default results/E01/E01-<run>)")
     args = ap.parse_args()
-    cfg = json.loads(CONFIG.read_text())
+    cfg = json.loads(CONFIG.read_text(encoding="utf-8"))
     n_sim = args.n_sim or cfg["n_sim"]
     run_id = f"E01-{args.run}"
     boot = realized = None
@@ -162,7 +162,7 @@ def main():
     smoke = args.n_sim is not None or args.out is not None
     m = None
     if not smoke:
-        page = (ROOT / "notebook" / "experiments" / "E01-simulation-study.md").read_text()
+        page = (ROOT / "notebook" / "experiments" / "E01-simulation-study.md").read_text(encoding="utf-8")
         block = page.split("<!-- prereg:start -->")[1].split("<!-- prereg:end -->")[0]
         block = "\n".join(l.rstrip() for l in block.strip().splitlines())
         m = manifest.start(

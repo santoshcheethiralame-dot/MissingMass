@@ -8,7 +8,8 @@
 | [ROADMAP.md](ROADMAP.md) | Milestones, go/no-go gates, venues, what goes in which paper | Weekly |
 | [PROTOCOLS.md](PROTOCOLS.md) | Standard procedures: estimator suite, identity rules, independence, seeds, run manifests, LLM caching, uncertainty, the reporting recipe | When a procedure changes (a deviation if anything is frozen) |
 | [PAPER-PLAN.md](PAPER-PLAN.md) | Claim → evidence map, outline, figures, writing rules | As results arrive |
-| [RISKS.md](RISKS.md) | Risk register with triggers and responses; weekly scoop check | Weekly |
+| [RISKS.md](RISKS.md) | Risk register with triggers and responses | Weekly |
+| [SCOUTING.md](SCOUTING.md) | Mandatory research and scouting round every 10 days: scoops, near competitors, new leads, old ML/NLP methods, math, cybersecurity and space research | Every 10 days (one note per round) |
 | [COMPUTE.md](COMPUTE.md) | Where things run, per-experiment cost estimates, budget scenarios, actual spend | After pilots; weekly spend |
 | [DATA.md](DATA.md) | Every external artefact (version, licence, access) and every artefact we produce | On first use of anything |
 | [DISCLOSURE.md](DISCLOSURE.md) | Dual-use policy: release tiers, provider notice, canaries, disclosure log | Before Phase 3; on any disclosure |

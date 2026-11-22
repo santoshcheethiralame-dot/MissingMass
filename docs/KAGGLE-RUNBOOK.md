@@ -15,6 +15,12 @@ The rules from `notebook/README.md` apply:
 **Before the v1 freeze, run only the rows marked "pre-freeze OK".** They
 compute no outcomes (inventories, timings, seeding checks).
 
+**Who runs what (2026-11-04).** Santosh has asked Kushal to run the Kaggle
+jobs, including Santosh's rows 1–4 below. Row 1 (E02-R001) is needed
+before the Nov 6–8 freeze; rows 2–4 can wait. Santosh keeps the analysis
+of the outputs. Run IDs keep their owner; the executor goes in the run's
+notes.
+
 ## Setup (every session)
 
 ```bash
@@ -30,7 +36,7 @@ you re-attach, and a cut session resumes where it stopped.
 
 | # | Run | When | Command | GPU-h *(est)* |
 |---|---|---|---|---|
-| 1 | E02-R001 inventory | pre-freeze OK | `python analysis/e02/zoo.py inventory --out /kaggle/working/E02-R001` | < 0.5 |
+| 1 | E02-R001 inventory (**done 2026-11-22**, run locally on CPU) | pre-freeze OK | `python analysis/e02/zoo.py inventory --out /kaggle/working/E02-R001` | < 0.5 |
 | 2 | E06-R002 timing pilot (2 SAEs, base) | pre-freeze OK | `python analysis/e06/train.py --cell base --out /kaggle/working/e06 --seeds 0-1` | < 2 |
 | 3 | E11 seeding repeat on Pythia-70M (logged under R002) | pre-freeze OK | `python analysis/e11/seeding_check.py --out /kaggle/working/E11-seed --hf pythia-70m-deduped --dataset apollo-research/monology-pile-uncopyrighted-tokenizer-EleutherAI-gpt-neox-20b --device cuda` | < 0.2 |
 | 4 | E11-R002 timing pilot (1 SAE) | pre-freeze OK | `python analysis/e11/train.py --out /kaggle/working/e11 --seeds 0` | < 2 |

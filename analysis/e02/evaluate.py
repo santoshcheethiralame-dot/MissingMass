@@ -119,7 +119,7 @@ def main():
         r["loo_delta_rel_err_abs_median"] = float(np.median(np.abs(errs)))
         rows.append(r)
 
-    with open(out / "cells.csv", "w", newline="") as f:
+    with open(out / "cells.csv", "w", newline="", encoding="utf-8") as f:
         keys = list(dict.fromkeys(k for r in rows for k in r))
         w = csv.DictWriter(f, keys, restval="")
         w.writeheader()
@@ -150,7 +150,7 @@ def main():
         dict(id="H2d", estimate=f"median |relative error| of leave-one-out Delta_hat(1) = {loo:.3f}",
              verdict="supported" if loo <= 0.2 else ("not supported" if loo > 0.4 else "inconclusive")),
     ]
-    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n")
+    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n", encoding="utf-8")
     L = ["# E02 evaluation", "", f"{n} cells; tau_gt = {a.tau_gt}; matched = M1 at tau = {a.tau}; "
          f"truth = {a.truth} (D-011).", "",
          "| ID | Estimate | Verdict |", "|---|---|---|"] + \
@@ -161,7 +161,7 @@ def main():
         L.append(f"| {r['cell']} | {r['K']} | {r['U']} | {r['C_eval']:.3f} | {r['oracle_C_hat']:.3f} "
                  f"({r['oracle_C_lo']:.3f}–{r['oracle_C_hi']:.3f}) | {r.get('matched_C_hat', np.nan):.3f} | "
                  f"{r['oracle_chao2']:.0f} | {r.get('matched_chao2', np.nan):.0f} |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L[:9]))
 
 

@@ -8,8 +8,8 @@ revision or snapshot ID, and a sha256 for files.
 
 | Artefact | Source | Used in | Licence | Access from sandbox | Pinned version | Notes |
 |---|---|---|---|---|---|---|
-| SynthSAEBench world v1 / v2 | HF `decoderesearch/synth-sae-bench-16k-v1`, `-v2` | E02, E03, E06 | check (Q-D8) | **blocked (HF)** | | Same feature vectors, probabilities, correlation and hierarchy in v1 and v2; only child magnitudes differ. Decoder-based truth is unaffected by the version. |
-| SynthSAEBench SAE zoo | HF `decoderesearch/synth-sae-bench-16k-v1-saes` | E02, E03 | check | **blocked (HF)** | | 5 architectures × 7 L0 × 5 "seeds", width 4,096 (about 5 GB). **Seeds are not controlled:** initialisation and data both vary, unseeded (`sweep_l0.py`). |
+| SynthSAEBench world v1 / v2 | HF `decoderesearch/synth-sae-bench-16k-v1`, `-v2` | E02, E03, E06 | none stated on either card (Q-D8) | OK from Santosh's laptop (2026-11-22) | v1 `f99b414f`, v2 `2300093f` | Both ship the **same** `synthetic_model.safetensors` (SHA-256 `4bf0b07f…`): same feature vectors, probabilities and correlation. Only `hierarchy.json`/config differ: the 2,688 parent nodes have `scale_children_by_parent` false in v1, true in v2. The v1 card is deprecated for that reason. **The zoo was trained on v2** (all 175 `runner_config.json`), so v2 is the default (`zoo.WORLD_REPO`) for activations. Stored `firing_probabilities` are compensated; `zoo.marginal_p` gives the marginal p_i. |
+| SynthSAEBench SAE zoo | HF `decoderesearch/synth-sae-bench-16k-v1-saes` | E02, E03 | MIT (card) | OK from Santosh's laptop (2026-11-22) | `a39c0d96` (E02-R001; SHA-256 of all 1,052 files in `results/E02/E02-R001/repos.json`) | 5 architectures × 7 L0 × 5 "seeds", width 4,096 (about 5 GB). **Seeds are not controlled:** initialisation and data both vary, unseeded (`sweep_l0.py`). |
 | SynthSAEBench generator + experiments | GitHub `decoderesearch/SAELens` (`sae_lens.synthetic`), `decoderesearch/synth-sae-bench-experiments` | E02, E06 | SAELens MIT (check experiments repo) | GitHub OK | SAELens 6.54.12 read | World config: Zipf exponent 0.5, p ∈ [5e-4, 0.4], 128 roots × branching 4 × depth 3, low-rank correlation (rank 25, scale 0.1), magnitudes 5.0 → 4.0, seed 42 |
 | SAE reliability audit (null and oracle SAEs) | GitHub `decoderesearch/saebench-reliability-audit` | E02, E03 | check | GitHub OK | | |
 | AuditBench (code) | GitHub `safety-research/auditing-agents` | E08, E09 | check | GitHub OK | | `run_all_agents.py`; per run: `transcript.json`, `quirks/*.md` (≤ 10 predictions), Sonnet-judge 0/1 score. **Set `--max-tokens 25000` explicitly** (script defaults differ). |
@@ -35,8 +35,8 @@ revision or snapshot ID, and a sha256 for files.
 | Artefact | Location | Tier (`DISCLOSURE.md`) | Documentation | Licence |
 |---|---|---|---|---|
 | Estimator library | `src/crsafety/` | public | README, docstrings | MIT |
-| Simulation results (E01, E05) | `results/E01/`, `results/E05/` | public | datasheet | CC BY 4.0 (proposed, D-006) |
-| Detection histories (every experiment) | `results/EXX/<run>/histories/` | public | datasheet | CC BY 4.0 (proposed) |
+| Simulation results (E01, E05) | `results/E01/`, `results/E05/` | public | datasheet | CC BY 4.0 (D-006) |
+| Detection histories (every experiment) | `results/EXX/<run>/histories/` | public | datasheet | CC BY 4.0 (D-006) |
 | Our SAE replicates (E06, E11, E15) | external storage (HF, once access exists) | public | model card | MIT / Apache-2.0 per base model |
 | Audit outputs (E08, E09, E12) | external storage | public, unless upstream terms say otherwise | datasheet | per upstream |
 | Attack transcripts (E10) | external storage | public for our own monitor (after review); withheld for deployed models | datasheet + canary | CC BY 4.0 / withheld |

@@ -104,15 +104,15 @@ def main():
         v = "inconclusive" if not np.isfinite(lo) else ("supported" if hi < 0 else ("not supported" if lo > 0 else "inconclusive"))
         H.append(dict(id="H9d", estimate=f"lambda_(12)3 = {b['lambda_12_3']:+.3f} (95% CI {lo:+.3f}, {hi:+.3f})",
                       verdict=v, design_b=b))
-    (out / "configs.json").write_text(json.dumps(rows, indent=2, default=float) + "\n")
-    (out / "hypotheses.json").write_text(json.dumps(H, indent=2, default=float) + "\n")
+    (out / "configs.json").write_text(json.dumps(rows, indent=2, default=float) + "\n", encoding="utf-8")
+    (out / "hypotheses.json").write_text(json.dumps(H, indent=2, default=float) + "\n", encoding="utf-8")
     L = ["# E09 analysis", "", f"N = {N} organisms; tolerance {a.tol}.", "",
          "| config | S | C | Ĉ (95% CI) | Chao2 (lower bound) | Δ (runs 9–16) | Δ̂(8) |", "|---|---|---|---|---|---|---|"]
     for r in rows.values():
         L.append(f"| {r['config']} | {r['S']} | {r['C']:.3f} | {r['C_hat']:.3f} ({r['C_lo']:.3f}–{r['C_hi']:.3f}) | "
                  f"{r['chao2']:.1f} | {r['delta']} | {r['delta_hat']:.2f} |")
     L += ["", "| ID | estimate | verdict |", "|---|---|---|"] + [f"| {h['id']} | {h['estimate']} | **{h['verdict']}** |" for h in H]
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

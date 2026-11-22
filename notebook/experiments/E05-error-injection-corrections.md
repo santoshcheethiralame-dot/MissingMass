@@ -52,10 +52,16 @@ The oracle-history estimates (no error) and the true C and \|U\|.
 - (b) Labelled-subset rates: estimate f and g from n_v ∈ {50, 100, 200, 500}
   labelled pairs (stratified by score bin); then apply the LP correction
   LP × (1 − f̂), and first-order frequency-count corrections for Chao2 and Ĉ.
-- (c) Chiu-Chao singleton-corrected Chao2 (if validated in E00).
-- (d) f1-free estimator (`breakaway_nof1` or ratio regression).
-- (e) Multiple imputation over matchings: soft match probabilities from a
-  two-component mixture on the score, 20 imputations, Rubin's rules.
+- (c) Chiu-Chao singleton-corrected Chao2: not run, since it was not
+  validated in E00 (D-009; Q-D10).
+- (d) f1-free estimator: `breakaway_nof1`, as specified. No other f1-free
+  estimator is added; its failure at K = 10 is reported (FREEZE-V1 item 6;
+  pilot E05-R004/R005, prior knowledge).
+- (e) Multiple imputation over matchings, 20 imputations, Rubin's rules.
+  **Primary (e2):** match probabilities from the labelled true-match rate of
+  the singleton's score bin (n_v = 200). **Also reported (e1):** a free
+  two-component mixture on the score (FREEZE-V1 item 5; pilot E05-R004,
+  prior knowledge).
 - (f) Di Consiglio-Tuoto linkage-error-corrected Petersen (pairs only).
 
 ### Performance measures
@@ -93,7 +99,6 @@ The oracle-history estimates (no error) and the true C and \|U\|.
 
 ### Exclusions and missing data
 None.
-<!-- prereg:end -->
 
 ## 2a. Implementation choices (drafted 2026-10-22, before any confirmatory run; for the joint freeze)
 
@@ -136,9 +141,9 @@ merging.
 - (d) `breakaway_nof1` on the incidence frequency counts, through
   `crsafety.rbridge`. **Pilot finding:** at K = 10 it falls back to its
   Poisson model in 59% of injections and is biased (median −18% to −43%).
-  It stays as specified; whether to add a ratio-regression f1-free
-  estimator (E05 §2 allows one) is for the freeze. Adding one needs an E00
-  validation run first.
+  It stays as specified, and no other f1-free estimator is added
+  (FREEZE-V1 item 6): the beta-binomial alternative tried on the pilot's
+  stored tables was worse (LOG 2026-10-22).
 - (e) Multiple imputation, 20 imputations. Each singleton is relinked to its
   best candidate with probability π. Chao2 uses Rubin's rules (log-normal
   s.e. as within-variance); Ĉ reports the MI mean and between-imputation
@@ -148,8 +153,8 @@ merging.
   - (e2) **(after pilot)** π = the labelled true-match rate of the
     singleton's score bin (n_v = 200). In R004, (e1) relinked real
     singletons when there were no ghosts (Chao2 −26% at f = 0, g = 0.05,
-    vs −6% naive); (e2) does not (−6%). Both are reported; (e2) is proposed
-    as the primary MI variant.
+    vs −6% naive); (e2) does not (−6%). Both are reported; (e2) is the
+    primary MI variant (§2; FREEZE-V1 item 5).
 - (f) Di Consiglio-Tuoto Petersen with λ = 1 − f̂ and β = ĝ, averaged over
   all run pairs.
 
@@ -174,6 +179,8 @@ it).**
   confirmatory stream (keys < 9000, injection 0) before the offset existed.
   Its output was deleted unread: only shape and non-finite counts were
   printed. Logged in LOG.
+
+<!-- prereg:end -->
 
 ## 3. Contingencies
 

@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | analysed (R001–R008; awaiting Kushal's review) |
+| Status | analysed (R001–R010; R001–R009 approved in Kushal's four-eyes review, 2026-10-23; R010 answers its D-010 A condition) |
 | Owner | Santosh |
 | Tier | core |
 | Stage | 1 exploratory (sets † thresholds before the v1 freeze) |

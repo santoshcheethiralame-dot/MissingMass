@@ -81,7 +81,7 @@ def main():
         subprocess.run([sys.executable, str(ROOT / "analysis/e16/bracket.py"), "--cell-dir", str(base), "--seeds",
                         f"0-{a.seeds - 1}", "--out", str(bo), "--samples", "200000", "--device", "cpu"],
                        check=True, capture_output=True)
-        summary[name] = json.loads((bo / "bracket.json").read_text())
+        summary[name] = json.loads((bo / "bracket.json").read_text(encoding="utf-8"))
     L = ["# E16-R003 pilot (declared, exploratory): residual bounds vs two missed-mass estimands", "",
          "| world | missed features | (a) M_miss | (b) M_unrec (mean over seeds) | L0 | L1 | U_res | U_lin | U_lit | "
          "(a) within [L1, U_res] | (b) share of seeds within [L1, U_res] | (b) within [L1, U_lin] |",
@@ -91,7 +91,7 @@ def main():
                  f"{r['L0']:.3f} | {r['L1']:.3f} | {r['U_res']:.3f} | {r['U_lin']:.3f} | {r['U_lit']:.3f} | "
                  f"{r['brackets']['L1-U_res']['valid']} | {r['brackets_unrec']['L1-U_res']['valid_share']:.2f} | "
                  f"{r['brackets_unrec']['L1-U_lin']['valid_share']:.2f} |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     if m is not None:
         outs = [(out / "summary.md").resolve().relative_to(ROOT)] + \

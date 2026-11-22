@@ -150,7 +150,7 @@ def write_summary(rows, out, wall):
             L.append(f"| {cname} | {f} | {g} | {pat} | {rb('naive_chao2')} | {rb('b50_chao2')} | "
                      f"{rb('b200_chao2')} | {rb('mi_chao2')} | {rb('mil200_chao2')} | {med:+.0%} | "
                      f"{np.nanmean(col(rs, 'b200_f_hat')):.3f} |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

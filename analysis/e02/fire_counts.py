@@ -55,7 +55,7 @@ def main():
             done += n
     out = {k: v.cpu().tolist() for k, v in counts.items()}
     act = {k: v.cpu().tolist() for k, v in sums.items()}
-    Path(a.out).write_text(json.dumps(dict(samples=a.samples, seed=a.seed, counts=out, act_sums=act)) + "\n")
+    Path(a.out).write_text(json.dumps(dict(samples=a.samples, seed=a.seed, counts=out, act_sums=act)) + "\n", encoding="utf-8")
     dead = {k: sum(c == 0 for c in v) for k, v in out.items()}
     print(f"{len(out)} SAEs, {a.samples} samples; dead latents per SAE: min {min(dead.values())}, "
           f"max {max(dead.values())}")

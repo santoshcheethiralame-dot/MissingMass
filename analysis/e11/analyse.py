@@ -118,7 +118,7 @@ def main():
     a = ap.parse_args()
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    raw = json.loads(Path(a.fire_counts).read_text()) if a.fire_counts else {}
+    raw = json.loads(Path(a.fire_counts).read_text(encoding="utf-8")) if a.fire_counts else {}
     fires, ns = raw.get("counts", raw), raw.get("samples")
     ss = np.random.SeedSequence(a.seed)
     sub = lambda root, s: Path(root) / s / a.model / "l0-32"  # noqa: E731
@@ -129,7 +129,7 @@ def main():
     cl = cluster([ind[k] for k in sorted(ind)], a.tau)
     if cl is None:
         res["status"] = "no plateau: no trustworthy threshold (E03 rule)"
-        (out / "summary.json").write_text(json.dumps(res, indent=2) + "\n")
+        (out / "summary.json").write_text(json.dumps(res, indent=2) + "\n", encoding="utf-8")
         print(res)
         return
     tau = cl["mid"]
@@ -148,7 +148,7 @@ def main():
         X2, _ = mt.cluster_seeds([l2[k] for k in sorted(l2) if k < 8], tau)
         units["second layer"] = chat(X2, a.B, ss.spawn(1)[0])
     if a.ladder_chat:
-        units["Gemma Scope ladder (R004)"] = dict(estimate=json.loads(Path(a.ladder_chat).read_text())["C_hat"])
+        units["Gemma Scope ladder (R004)"] = dict(estimate=json.loads(Path(a.ladder_chat).read_text(encoding="utf-8"))["C_hat"])
     est = {k: v["estimate"] for k, v in units.items() if np.isfinite(v["estimate"])}
     gap = max((abs(x - y) for x, y in combinations(est.values(), 2)), default=np.nan)
     res["units"] = units
@@ -170,7 +170,7 @@ def main():
         ci = boot_diff(rt, rn, sorted(ind), sorted(null), 2000, np.random.default_rng(ss.spawn(1)[0]))
         res["H11c"] = dict(recapture_trained=mt_, recapture_null=mn, diff=mt_ - mn, ci95=ci,
                            verdict="supported" if mt_ > mn and ci[0] > 0 else "not supported")
-    (out / "summary.json").write_text(json.dumps(res, indent=2, default=float) + "\n")
+    (out / "summary.json").write_text(json.dumps(res, indent=2, default=float) + "\n", encoding="utf-8")
     print(json.dumps(res, indent=2, default=float))
 
 

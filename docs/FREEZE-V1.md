@@ -10,6 +10,101 @@ off in the PR, not here.
 Status on 2026-10-22: the study pre-registration is draft v0.2. Nothing is
 frozen.
 
+**Status on 2026-11-04 (Santosh).** `PREREGISTRATION.md` is now the v1.0
+candidate, with the agreed items applied.
+- **Section 1 is done.** Kushal approved E00, E01 and D-010 part A on
+  2026-10-23. His condition on D-010 A (a small-N check) is met by
+  E01-R010.
+- **Section 2, agreed and applied:** items 1, 2, 3, 8, 10, 16 and 17.
+  Item 13 is agreed and lives on E04's page.
+- **Section 2, needs Kushal before Nov 6:**
+  - **Item 4:** he approved D-011 for E02/E06 in his review (§4). Please
+    confirm it as the v1.0 decision.
+  - **Item 18:** the PH5 wording in the v1.0 candidate is Santosh's draft
+    of his proposal.
+  - **Items 5 and 6:** these are on E05's page, which locks at v1.0.
+- **Section 2, item 7 (licences): decided.** D-006 was accepted on
+  2026-11-04: MIT for code, CC BY 4.0 for docs and released data.
+- **Section 2, can wait for the page's own freeze:** items 9, 11, 12, 14
+  and 15 (E01 paper note, E06, E07, E11, E15). None of these pages locks
+  at v1.0, and none sets a study-level threshold.
+- **Section 3, E02-R001 has not run.** Kushal has been asked to run it on
+  Kaggle (runbook row 1) before Nov 6. Otherwise E02 and E03 move to v1.1. v1.0 then locks
+  `PREREGISTRATION.md`, E05 and E13.
+- **Section 3, pages with no stage:** E04, E06, E07, E11 and E15–E17 are
+  frozen one by one, after their pilots (v1.0 candidate, "Freeze plan").
+- **Since the last update:**
+  - E10's R002 success bar (at least 30 of 40 pilot blind spots in
+    0.05–0.6) and the family-matched pilot were merged in #28; they lock
+    with E10 at v1.1.
+  - E08's open v1.1 points: the L3 balancing rule, Petri or the interview
+    scaffold, and the judge choice per D-017.
+
+**Status on 2026-11-22 (Santosh).** The Nov 6–8 freeze did not happen:
+no `prereg-v1.0` tag exists, and the 2026-11-04 candidate was never merged
+into `main`. Branch `santosh/prereg-v1.0-freeze` now carries it.
+- **Merged into the freeze branch:** the 2026-11-04 candidate (D-006,
+  freeze items applied) and Kushal's E02-R001 Kaggle cells
+  (`kaggle/E02-R001-cells.md`).
+- **Written into the v1.0 pages' §2 (lock text):**
+  - E02: thresholds 0.05 and 2 (items 1, 3); leave-cell-out truth
+    primary (item 4).
+  - E05: `breakaway_nof1` as the only f1-free estimator (item 6); labelled
+    MI (e2) primary, free mixture (e1) reported (item 5).
+- **Lock scope widened:** on E02, E03, E05 and E13, `<!-- prereg:end -->`
+  now sits after §2a, so the implementation choices fixed before the
+  freeze are hash-locked too. Before, only §2 was.
+- **Windows portability (needed to freeze from Windows):** text I/O now
+  uses UTF-8. Before this, `read_text()` decoded the pages as cp1252 on
+  Windows, so a lock made there would never have matched CI's hash.
+  `analysis/e13/run.py` now handles drive letters in `--testbed`.
+- **Dry run:** in a throwaway clone, `freeze` locked E02, E03, E05 and
+  E13; `check` passed; the hash was the same for CRLF and LF; an edit
+  inside a locked block made `check` fail.
+- **Still needs Kushal (approve in the freeze PR):** items 5 and 6 (E05
+  wording above) and item 18 (PH5 wording in `PREREGISTRATION.md`). Item 4
+  stands on his review §4.
+- **E02-R001 done (later on 2026-11-22), run locally on CPU:** the zoo is
+  complete (175 SAEs: 5 architectures × 7 L0 × 5 seeds, width 4,096, none
+  missing; world 16,384 × 768). So E02 and E03 can lock at v1.0. Two
+  findings, both outside the locked text:
+  - The Hugging Face world is v1 (`scale_children_by_parent=false`).
+  - Its `firing_probabilities` are compensated per-feature rates, not
+    marginal p_i. Fixed on 2026-11-23: `zoo.py` now rebuilds the marginal
+    p_i from the config. This affects only the E07 covariate and the
+    exploratory p→π curve.
+- **Gap, to decide together (option ready 2026-11-23):**
+  `PREREGISTRATION.md` holds every threshold but was not hash-locked.
+  - It now has a prereg block covering §0–8. `notebook.py freeze PREREG`
+    locks it, and `check` then fails on any edit that has no DEVIATIONS
+    entry.
+  - A dry run in a throwaway worktree confirmed this.
+  - Nothing is locked until one of us runs it. Decide whether to include
+    it in the v1.0 chain.
+- **New decision: E05 (c) Chiu-Chao (Q-D10 answered 2026-11-23).** The
+  formula is now in the library (`chiu_chao_q1`, `chao2_adj`; Eq. 5 and
+  6a/6b, incidence n → K). It is not validated in E00.
+  - Option A: keep §2 as written ((c) not run; `breakaway_nof1` is the
+    f1-free option).
+  - Option B: reinstate (c) before the lock and add an E00 check first.
+  - Note: Eq. 5 drops a finite-sample factor that matters at K = 5, and
+    Q4 is often 0 at K = 5.
+- **World version settled (E02-R001):** the zoo was trained on the v2
+  world. The v1 and v2 weight files are identical, so the R001 inventory
+  and the decoder oracle hold for both. Activations now default to v2
+  (`zoo.WORLD_REPO`). E02 §2 already says activation measures are
+  computed under both versions.
+- **Dates:** v1.0 and v1.1 (about Nov 22) have both slipped; new dates are
+  for the next sync.
+- **New on 2026-11-23: an E13 comparator (item 19, D-019).**
+  - Scouting round 1 found Li, Hays, Ramdas and Raghavan (arXiv
+    2611.15835), an anytime-valid stopping bound.
+  - E13 §2 now adds it as rule R-CS. It is descriptive, with no hypothesis.
+  - The arithmetic says it cannot stop before 27 runs (target 0.8) or 51
+    runs (target 0.9). On E13's testbeds it will therefore act as R-fixed.
+  - Code is in `crsafety.stopping`, with tests. Kushal reviews it with the
+    E13 page.
+
 ## 1. Results the freeze builds on (Kushal reviews)
 
 | Item | Where | What to check |
@@ -39,6 +134,7 @@ frozen.
 | 15 | E15 SAE arm | Pooled-12 truth for marks; observed covariates via proxy map primary; H15c compares marks conditional on ≥ 1 catch; **pilot R005: 6 marks make calibration worse than Chao-Jost, ≥ 20 needed; H15b's 30% unlikely where Chao-Jost holds** | E15 §2a; E15-R005 |
 | 16 | E08/E10 primary truth (Kushal's review) | D-013 code supports both. Kushal proposes the catcher-agnostic truth (`cells:L3` for E08, `cells:A1,A5` or all arms for E10) as co-primary for H8a/H10b; own-reference truth secondary. Santosh agrees | D-013; review §5 |
 | 17 | PH1 † for E09/E10 (Kushal's counter-proposal) | Pool Ĉ − C over cells and items with a bootstrap CI: supported if the CI lies within ±0.10; not supported if it excludes 0 by > 0.05; state that E09/E10 are underpowered for PH1 and E02/E06 carry it. Santosh agrees; replaces D-010 B's E09/E10 part | review, positions |
+| 19 | E13 comparator R-CS (scouting round 1) | Add Li et al.'s anytime bound (arXiv 2611.15835) to E13 as rule R-CS: descriptive, no hypothesis; prediction from arithmetic: it cannot stop before k = 27 / 51 for targets 0.8 / 0.9. Proposed by Santosh; Kushal to review | D-019; E13 §2, §2a (R-CS) |
 | 18 | PH5 wording (Kushal's review §2.1) | Reword PH5 so the direction follows the adaptation: cross-run revisiting overstates coverage, steering to new holes understates it (E01 H1d: +0.07 vs −0.15); within-run adaptation is tested against the catcher-agnostic truth (item 16) | review §2.1, §5 |
 
 ## 3. Staged freeze (D-015): pages to lock at v1.0, v1.1 and v1.2
@@ -69,7 +165,7 @@ Conditions (Santosh):
 | E02 | v1.0 | Santosh → Kushal | R001 inventory on Kaggle (allowed before the freeze) | code ready (`analysis/e02/`); run R001 first |
 | E03 | v1.0 | Santosh → Kushal | uses E02-R001 | code ready (`analysis/e03/bakeoff.py`) |
 | E05 | v1.0 | Santosh → Kushal | R004, R005 done | §2a drafted; decisions 5–6; confirmatory scripts ready: `analysis/e05/run.py`, `analyse.py` |
-| E13 | v1.0 | Santosh → Kushal | R003 (simulated) done | confirmatory runner ready: `analysis/e13/run.py`; data from E02/E06/E09/E10 later |
+| E13 | v1.0 | Santosh → Kushal | R003 (simulated) done | confirmatory runner ready: `analysis/e13/run.py` (R-CS added 2026-11-23, item 19); data from E02/E06/E09/E10 later |
 | E08 | v1.1 | Kushal → Santosh | R001, R002; judge check H4 | frozen analysis script ready: `analysis/e08/analyse.py` (`--truth`, D-013) |
 | E10 | v1.1 | Kushal → Santosh | R001 (monitor, M = 40), R002 (difficulty) | frozen analysis script ready: `analysis/e10/analyse.py`; decision 10 |
 | E09 | v1.2 | Kushal → Santosh | R004 (pilot organisms, Dec 18) | frozen analysis script ready: `analysis/e09/analyse.py`; T3 tool per D-014 |

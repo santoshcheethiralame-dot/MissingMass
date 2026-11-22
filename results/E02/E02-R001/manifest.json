@@ -1,0 +1,48 @@
+{
+  "run_id": "E02-R001",
+  "experiment": "E02",
+  "prereg": null,
+  "confirmatory": false,
+  "git_sha": "da0353e",
+  "git_dirty": false,
+  "diff_sha256": null,
+  "command": "python analysis/e02/zoo.py inventory --out results/E02/E02-R001 --world <local> --zoo <local>",
+  "config": {
+    "world_repo": "decoderesearch/synth-sae-bench-16k-v1",
+    "zoo_repo": "decoderesearch/synth-sae-bench-16k-v1-saes",
+    "host": "local CPU (Windows), not Kaggle"
+  },
+  "config_sha256": "c7f4685e5e6452007387807d00a5405f0f377a1eaa118594f2e005a9f63c3815",
+  "env_lock_sha256": "78654587d135e241d81101890f30f439975fc888b49ef88e690e12d721b8f420",
+  "python_version": "3.12.10",
+  "package_versions": {
+    "numpy": "2.5.5",
+    "scipy": "1.18.1",
+    "crsafety": "0.1.0",
+    "safetensors": "0.8.0",
+    "huggingface_hub": "2.4.0"
+  },
+  "hardware": {
+    "machine": "AMD64",
+    "cpus": 12,
+    "system": "Windows"
+  },
+  "seeds": {},
+  "inputs": [],
+  "model_ids": [
+    "decoderesearch/synth-sae-bench-16k-v1@f99b414f298dad50a4aa704bf9c6d7670ddc800c",
+    "decoderesearch/synth-sae-bench-16k-v1-saes@a39c0d9691dc4a3d1d11dfb1680fd981cdcca0d9"
+  ],
+  "started_utc": "2026-11-22T18:05:04+00:00",
+  "finished_utc": "2026-11-22T18:22:37+00:00",
+  "status": "succeeded",
+  "outputs": [
+    "inventory.json",
+    "repos.json"
+  ],
+  "cost": {
+    "gpu_hours": 0.0,
+    "api_usd": 0.0
+  },
+  "session_hours": 0.293
+}

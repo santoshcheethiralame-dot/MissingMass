@@ -143,8 +143,8 @@ def main():
         lo_b, hi_b = float(np.mean(low)), float(np.mean(high))
         H.append(dict(id="H5d", estimate=f"|rel. bias| of naive Chao2 at g = 0.05: low-overlap cells {lo_b:.3f} vs high {hi_b:.3f} ({len(ov)} cells)",
                       verdict="supported" if lo_b > hi_b else "not supported"))
-    (out / "combinations.json").write_text(json.dumps(table, indent=1, default=float) + "\n")
-    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n")
+    (out / "combinations.json").write_text(json.dumps(table, indent=1, default=float) + "\n", encoding="utf-8")
+    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n", encoding="utf-8")
     L = ["# E05-R003: identity-error corrections", "", f"{len(rows)} injections, {len(table)} combinations.", "",
          "| ID | estimate | verdict |", "|---|---|---|"] + [f"| {h['id']} | {h['estimate']} | **{h['verdict']}** |" for h in H]
     e01 = [t for t in table if t["source"] == "E01" and t["f"] == 0.10 and t["g"] == 0.0]
@@ -154,7 +154,7 @@ def main():
         for t in e01:
             L.append(f"| {t['cell']} | {t['pattern']} | {t['naive_chao2_ci_covers_N']:.2f} | {t['e2_chao2_ci_covers_N']:.2f} | "
                      f"{t['naive_cov_ci_covers_C']:.2f} | {t['oracle_cov_ci_covers_C']:.2f} |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

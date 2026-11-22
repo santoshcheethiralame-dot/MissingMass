@@ -21,6 +21,12 @@ Technology-assisted document review uses Chao's estimator in exactly this
 way: mean recall met its target, but only about 70% of individual reviews
 did.
 
+The closest AI-testing work is Li, Hays, Ramdas and Raghavan (2026,
+arXiv 2611.15835). Their rule stops when an anytime-valid upper bound on the
+chance of an unseen failure falls below a threshold. It needs no model of
+detectability, but it treats one draw at a time. E13 tests their bound as a
+comparator, R-CS (D-019), on run-level campaigns.
+
 ## 2. Pre-registration
 
 <!-- prereg:start -->
@@ -37,6 +43,12 @@ and E10 (arms A1 and A2). The truth C(k) after k runs uses the reference
 - **R-point:** stop at the first k ≥ 3 where Ĉ(k) ≥ c*.
 - **R-lower:** stop at the first k ≥ 3 where the lower 95% bootstrap bound
   of Ĉ(k) ≥ c*.
+- **R-CS** (comparator, D-019): stop at the first k ≥ 3 where U(k) < 1 − c*.
+  U(k) is the anytime-valid 95% upper confidence sequence of Li et al.
+  (arXiv 2611.15835, Algorithm 1, as implemented in their Appendix C.1). It
+  treats each run as one draw. The observation for run k is Z_k, the share
+  of run k's detections not found by runs 1 to k − 1 (0 if run k finds
+  nothing). U(k) bounds the expected Z of the next run.
 - **R-fixed:** always run K_max (the maximum available).
 - Targets c* ∈ {0.8, 0.9}.
 
@@ -54,6 +66,13 @@ and E10 (arms A1 and A2). The truth C(k) after k runs uses the reference
 | H13c | R-point is not reliable enough | success rate at c* = 0.9 | < R-lower's | ≥ R-lower's |
 | H13d | Adaptive campaigns break the rule | success rate, E10 A2 vs A1 | lower for A2 | not lower |
 
+R-CS carries no hypothesis. It is reported next to R-lower: success rate,
+runs saved and undershoot, per testbed and on the H13a set. The prediction
+below follows from the bound's arithmetic alone, not from data. Even if no
+run after the first finds anything new (Z = 0), U(k) first drops below 0.2
+at k = 27 and below 0.1 at k = 51. So on every testbed with K_max < 27,
+R-CS cannot stop early, and it behaves like R-fixed.
+
 ### Planned runs
 
 | Run | Configuration | Replicates | Expected cost |
@@ -65,13 +84,15 @@ and E10 (arms A1 and A2). The truth C(k) after k runs uses the reference
 each other, so intervals use a bootstrap over the underlying items or cells.
 
 ### Analysis plan
-Confirmatory: H13a to H13d. Exploratory: an adaptive-aware rule using the A3
-correction.
+Confirmatory: H13a to H13d. Descriptive: R-CS next to R-lower (above).
+Exploratory: an adaptive-aware rule using the A3 correction; and R-CS with
+single detections as the draws (each run's detections in random order).
+That gives many more draws, but it breaks the bound's i.i.d. assumption
+within a run.
 
 ### Exclusions and missing data
 Testbeds where K_max < 6 (e.g. E02) are reported separately and excluded from
 the pooled H13a figure.
-<!-- prereg:end -->
 
 ## 2a. Implementation notes (2026-10-23, before the freeze)
 
@@ -88,12 +109,50 @@ the pooled H13a figure.
   H13a).
 - The H13a CI is a bootstrap over cells (§2 allows items or cells).
 
+## 2a. Implementation notes, R-CS (2026-11-23, before the freeze)
+
+- **Why it was added.** R-CS was added on 2026-11-23 after scouting round 1
+  (D-019; `research/notes/scout-2026-11-23.md`). It came from the
+  literature, not from E13 data. No E13 confirmatory data exist yet. The
+  pilot R003 (simulated campaigns) had already been seen, but R-CS was not
+  in it.
+- **Code.** `crsafety.stopping`: `new_share` (Z_k), `unseen_ucs` (U) and
+  `stop_cs`. The setting follows the paper's Appendix C.1:
+  - restart weights w_s = 1 / (2.11 (s+1) log(s+1)²);
+  - a reserve of 0.999 − Σ w for restarts not yet started;
+  - 100 betting fractions λ on a midpoint grid in (0, 1), equal weights;
+  - α = 0.05;
+  - the bound is found by bisection, and the upper end is kept so that
+    rounding is conservative.
+- **Checked against the authors' code by reading it, not by running it.**
+  `github.com/rachelli2019/unseen-failures-code`, commit `293527e`,
+  `src/av_core.py`: the weight indexing, the 0.999 reserve and the e-process
+  1 + λ(u − z) match.
+- **Our extension: Z can be any value in [0, 1].** The paper's Z is binary.
+  The proof still works because each factor 1 + λ(u − Z) stays positive for
+  λ < 1. Its conditional mean is at most 1 whenever the next run's expected
+  Z is at least u.
+- **E13 breaks the i.i.d. assumption.** Its campaigns permute a fixed,
+  finite set of runs, so each run is drawn without replacement. The paper's
+  assumption therefore holds only approximately.
+- **What the bound targets.** U bounds E[Z_{k+1}], a mean of ratios. The
+  truth 1 − C(k) is a ratio of means (missed π-mass over total π-mass). The
+  two agree only approximately. For both reasons, R-CS is scored against the
+  true C like every other rule.
+- **Tests.** `tests/test_stopping.py` checks:
+  - the 27-run and 51-run thresholds;
+  - coverage at a constant rate of 0.05;
+  - that R-CS cannot fire at K = 16.
+
+<!-- prereg:end -->
+
 ## 3. Contingencies
 
 | If this happens | Then | Deviation? |
 |---|---|---|
 | A source experiment is missing | Evaluate on what exists and say so | Yes |
 | R-lower never stops (bound too wide) | Report that. It is a usable negative: the budget is too small for the target | No |
+| Li et al. revise their bound (a new arXiv version or code commit) before E13 freezes | Update R-CS to match, and note the version in §2a | No (before the freeze) |
 
 ## 4. Runs
 

@@ -49,6 +49,13 @@ AI-safety tools, not new estimators.
   rules. Bron et al. report a mean recall above target but per-run success
   well below it (check). This motivates reporting success rates of stopping
   rules, not means (E13).
+- *Anytime-valid stopping for AI testing.* Li, Hays, Ramdas and Raghavan
+  (2026, arXiv 2611.15835) bound the chance that the next test session
+  shows an unseen failure, with a guarantee that holds whenever the
+  developer stops. Their draws are single sessions, so they need thousands.
+  Our runs are expensive repeated audits, at K ≤ 16. There the bound cannot
+  fire: it needs at least 27 runs for a target of 0.8. E13 reports it as a
+  comparator (R-CS), and we model detectability and dependence instead.
 
 **SAE reliability across seeds.**
 - *Cross-seed overlap.* Paulo and Belrose (2025) find that about 30% of

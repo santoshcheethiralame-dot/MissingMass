@@ -47,13 +47,13 @@ def rscript():
 def _run(script, payload):
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
-        (tmp / "s.R").write_text(script)
-        (tmp / "in.json").write_text(json.dumps(payload))
+        (tmp / "s.R").write_text(script, encoding="utf-8")
+        (tmp / "in.json").write_text(json.dumps(payload), encoding="utf-8")
         proc = subprocess.run([rscript(), str(tmp / "s.R"), str(tmp / "in.json"), str(tmp / "out.json")],
                               capture_output=True, text=True)
         if proc.returncode != 0:
             raise RuntimeError(f"Rscript failed:\n{proc.stderr[-2000:]}")
-        return json.loads((tmp / "out.json").read_text())
+        return json.loads((tmp / "out.json").read_text(encoding="utf-8"))
 
 
 def frequency_table(X):

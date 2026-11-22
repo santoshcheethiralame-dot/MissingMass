@@ -20,7 +20,7 @@ import numpy as np
 
 from crsafety import manifest
 from crsafety.sim import Cell, simulate
-from crsafety.stopping import campaign
+from crsafety.stopping import RULES, campaign
 
 ROOT = Path(__file__).resolve().parents[2]
 MASTER = 20261035
@@ -76,13 +76,13 @@ def main():
          "|---|---|---|---|---|---|"]
     for name in WORLDS:
         for t in (0.8, 0.9):
-            for rule in ("R-point", "R-lower", "R-fixed"):
+            for rule in RULES:
                 rs = [r for r in rows if r["world"] == name and r["target"] == t and r["rule"] == rule]
                 succ = np.mean([r["success"] for r in rs])
                 fails = [r["undershoot"] for r in rs if not r["success"]]
                 L.append(f"| {name} | {t} | {rule} | {succ:.3f} | {np.median([r['saved'] for r in rs]):.2f} | "
                          f"{np.mean(fails) if fails else 0:.3f} |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     if m is not None:
         manifest.finish(m, outputs=[(out / "campaigns.csv.gz").relative_to(ROOT),

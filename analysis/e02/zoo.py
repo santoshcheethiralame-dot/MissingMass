@@ -40,7 +40,11 @@ sys.path.insert(0, str(ROOT / "src"))
 from crsafety import matching as mt  # noqa: E402
 from crsafety.histories import check_cell, write_cell  # noqa: E402
 
-WORLD_REPO = "decoderesearch/synth-sae-bench-16k-v1"
+# v2: the world the zoo was trained on (all 175 runner_config.json files have
+# scale_children_by_parent=true; the v1 card says v1 lacks it). v1 and v2 ship
+# the same synthetic_model.safetensors (same SHA-256), so decoder-based truth
+# and p_i are identical; only activations (fire_counts, act_corr) differ.
+WORLD_REPO = "decoderesearch/synth-sae-bench-16k-v2"
 ZOO_REPO = "decoderesearch/synth-sae-bench-16k-v1-saes"
 SAE_RE = re.compile(r"(?:^|/)(?P<arch>[^/]+)/l0-(?P<l0>\d+)/seed-(?P<seed>\d+)/sae_weights\.safetensors$")
 TAU_GT = (0.5, 0.6, 0.7, 0.8, 0.9)
@@ -61,10 +65,53 @@ def load_tensors(path):
     return load_file(str(path))
 
 
+def marginal_p(stored, cfg, hier):
+    """Marginal firing probability p_i (E02 §2: from the generator config).
+
+    With ``compensate_probabilities`` SAELens stores base p x a hierarchy
+    correction (1 / parent base p, times 1 + sibling base p / parent base p
+    in mutually exclusive groups), so that the sampled marginal rate is about
+    the base p. The base p is the Zipf curve in the config; it is rebuilt here
+    and checked against the stored array (E02-R001, 2026-11-22: max relative
+    error 8e-7 on the 16k world)."""
+    stored = np.asarray(stored, np.float64)
+    if not cfg or not cfg.get("hierarchy", {}).get("compensate_probabilities"):
+        return stored
+    fp, n = cfg["firing_probability"], len(stored)
+    if fp.get("generator_name") != "zipfian":
+        sys.exit(f"compensated world with a {fp.get('generator_name')} generator: marginal p_i not implemented")
+    q = (1 / np.arange(1, n + 1, dtype=np.float32) ** np.float32(fp["exponent"])).astype(np.float32)
+    base = (fp["min_prob"] + (fp["max_prob"] - fp["min_prob"]) * (q - q.min()) / (q.max() - q.min())).astype(np.float64)
+    corr = np.ones(n)
+
+    def walk(node, parent_p):
+        i = node.get("feature_index")
+        p = parent_p if i is None else base[i]
+        if i is not None and parent_p > 0:
+            corr[i] = 1 / parent_p
+        for c in node["children"]:
+            walk(c, p)
+        kids = [c["feature_index"] for c in node["children"] if c.get("feature_index") is not None]
+        if node.get("mutually_exclusive_children") and len(kids) >= 2 and p > 0:
+            tot = base[kids].sum()
+            for k in kids:
+                corr[k] *= 1 + max(0.0, tot - base[k]) / p
+
+    for root in hier["roots"]:
+        walk(root, 1.0)
+    if not np.allclose(np.minimum(base * corr, 1.0), stored, rtol=1e-5, atol=0):
+        sys.exit("stored firing_probabilities do not match the config's Zipf curve x hierarchy correction")
+    return base
+
+
 def load_world(d):
     f = next(Path(d).rglob("synthetic_model.safetensors"))
     t = load_tensors(f)
-    return t["feature_vectors"].astype(np.float32), t["firing_probabilities"].astype(np.float64), f
+    cfg, hier = (f.parent / "synthetic_model_config.json"), (f.parent / "hierarchy.json")
+    cfg = json.loads(cfg.read_text(encoding="utf-8")) if cfg.exists() else None
+    hier = json.loads(hier.read_text(encoding="utf-8")) if hier.exists() else None
+    p = marginal_p(t["firing_probabilities"], cfg, hier)
+    return t["feature_vectors"].astype(np.float32), p, f
 
 
 def zoo_index(d):
@@ -100,7 +147,7 @@ def inventory(args):
                cells=len(archs) * len(l0s), expected=dict(archs=5, l0=7, seeds=5, width=4096))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n")
+    (out / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(inv, indent=2))
 
 
@@ -145,7 +192,7 @@ def histories(args):
     world_dir, zoo_dir = local_dir(args.world), local_dir(args.zoo)
     T, p, _ = load_world(world_dir)
     idx = zoo_index(zoo_dir)
-    raw = json.loads(Path(args.fire_counts).read_text()) if args.fire_counts else {}
+    raw = json.loads(Path(args.fire_counts).read_text(encoding="utf-8")) if args.fire_counts else {}
     fires = raw.get("counts", raw)  # fire_counts.py nests them under "counts"
     act_sums, n_samples = raw.get("act_sums", {}), raw.get("samples")
     pre, noise = {}, {}
@@ -194,14 +241,14 @@ def histories(args):
             write_cell(d, cell, X, [f"c{i}" for i in range(X.shape[0])], f"matched:M1@{tau:.2f}", runs=runs)
             problems += bool(check_cell(d))
         print(cell, "done", flush=True)
-    (Path(args.out) / "preprocessing.json").write_text(json.dumps(pre, indent=1) + "\n")
+    (Path(args.out) / "preprocessing.json").write_text(json.dumps(pre, indent=1) + "\n", encoding="utf-8")
     pooled = np.concatenate([v for v in noise.values()]) if noise else np.empty(0)
     q = np.linspace(0, 1, 1001)
     (Path(args.out) / "true_match_cosines.json").write_text(json.dumps(dict(
         note="|cos| between latents of two seeds assigned to the same true feature at |cos| >= 0.7 (E04 noise model)",
         quantiles=q.tolist(), pooled=np.quantile(pooled, q).tolist() if pooled.size else [], n_pooled=int(pooled.size),
         cells={c: dict(n=int(v.size), quantiles=np.quantile(v, q[::10]).tolist() if v.size else []) for c, v in noise.items()},
-    )) + "\n")
+    )) + "\n", encoding="utf-8")
     if not fires:
         print("WARNING: no --fire-counts given: dead latents were not removed (E02 §2 asks for it)")
     print(f"{len(cells)} cells written to {out}; cells failing check_cell: {problems}")

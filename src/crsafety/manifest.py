@@ -91,11 +91,11 @@ def start(run_id, experiment, command, config, seeds, confirmatory=False, prereg
     )
     p = path_for(run_id)
     p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(m, indent=2, default=str) + "\n")
+    p.write_text(json.dumps(m, indent=2, default=str) + "\n", encoding="utf-8")
     return m
 
 
 def finish(m, outputs=(), status="succeeded", **extra):
     m.update(finished_utc=_now(), status=status, outputs=[str(o) for o in outputs], **extra)
-    path_for(m["run_id"]).write_text(json.dumps(m, indent=2, default=str) + "\n")
+    path_for(m["run_id"]).write_text(json.dumps(m, indent=2, default=str) + "\n", encoding="utf-8")
     return m

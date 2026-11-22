@@ -490,3 +490,66 @@ fixed first, then OLMo-2-7B (the other family) is validated, as E08 §3
 allows before the freeze.
 **Affects pre-registered analysis:** the judge line of the E08 §2 estimands.
 It is not frozen yet and locks at v1.1.
+
+## D-006 accepted: code MIT; documentation and released data CC BY 4.0 (2026-11-04)
+
+**Status:** accepted by Santosh, the repository owner. This closes
+FREEZE-V1 item 7.
+**Decision:** D-006 as proposed:
+- code stays MIT (`LICENSE`, `CITATION.cff`);
+- `docs/`, `research/` text and released data tables are CC BY 4.0;
+- upstream data with an unconfirmed licence is never redistributed; we
+  release derived statistics and a regeneration script instead.
+**Affects pre-registered analysis:** no.
+
+## D-018: A research and scouting round every 10 days, mandatory (2026-11-23)
+
+**Status:** proposed by Santosh. Kushal to accept at the next sync, because
+it changes a shared duty in `TEAM.md`.
+**Context:**
+- The weekly scoop check (RISKS.md R01) last ran on 2026-10-23.
+- The check only looked for scoops. Ideas from older ML/NLP, statistics,
+  cybersecurity and space research reached the project once, in the
+  October literature survey, and never again.
+**Options considered:**
+- Keep the weekly scoop check: it is narrow, and it lapsed anyway.
+- A monthly review: too slow to catch a scoop before M4.
+- Every 10 days with six lanes and a committed note: chosen.
+**Decision:** run the round in `docs/SCOUTING.md` every 10 days, alternating
+owners, starting 2026-11-23.
+- A round counts only when its note is committed.
+- Every lead ends in exactly one outcome.
+- A scoop is handled the same day.
+- This replaces the weekly scoop check.
+**Affects pre-registered analysis:** no.
+
+## D-019: Cite Li et al. (2611.15835) and add its bound to E13 as a comparator (2026-11-23)
+
+**Status:** proposed by Santosh. Kushal to accept. It changes E13's
+pre-registration, which is not frozen yet (Stage 2).
+**Context:**
+- Scouting round 1 found Li, Hays, Ramdas and Raghavan (2026-11-11),
+  [2611.15835](https://arxiv.org/abs/2611.15835). It gives an anytime-valid
+  upper confidence sequence on the probability that the next test shows an
+  unseen failure mode, and stops testing when the bound is low enough.
+- It overlaps E13 (PH6) and our framing. It covers one stream of tests on
+  one system, not K runs of a tool with catcher dependence and identity
+  errors. Note: `research/notes/scout-2026-11-23.md`.
+**Options considered:**
+- Cite only: reviewers will ask why the closest stopping rule is missing
+  from E13.
+- Cite, and add their bound as a comparator rule in E13: chosen.
+- Re-scope E13 around their method: no, our question is coverage across
+  runs of a discovery tool.
+**Decision (proposed):**
+- Cite it in the intro and related work, and state the differences: many
+  runs of a tool (incidence data), dependence, identity errors, planted
+  truth.
+- Add a rule **R-CS** to E13 §2 before E13 freezes: stop at the first k ≥ 3
+  where their upper bound on the unseen-failure probability, computed on
+  the run sequence, is ≤ 1 − c*. Score it on reliability and runs saved,
+  like R-point and R-lower.
+- Check first that their bound applies to run-level incidence data; if it
+  does not, report it as exploratory and say why.
+**Affects pre-registered analysis:** yes, E13 (not frozen yet).
+

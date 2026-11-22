@@ -71,7 +71,7 @@ class Noise:
             self.q = None
             self.fixed = float(fixed)
         else:
-            d = json.loads(Path(path).read_text())
+            d = json.loads(Path(path).read_text(encoding="utf-8"))
             self.q, self.v = np.asarray(d["quantiles"]), np.asarray(d["pooled"])
 
     def draw(self, rng):
@@ -283,10 +283,10 @@ def main():
             rows.append(r)
         print(f"N_true = {n} done", flush=True)
     lev, H = summarise(rows)
-    with open(out / "replicates.jsonl", "w") as f:
+    with open(out / "replicates.jsonl", "w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, default=float) + "\n")
-    (out / "summary.json").write_text(json.dumps(dict(levels=lev, hypotheses=H, pilot=a.pilot), indent=2, default=float) + "\n")
+    (out / "summary.json").write_text(json.dumps(dict(levels=lev, hypotheses=H, pilot=a.pilot), indent=2, default=float) + "\n", encoding="utf-8")
     L = ["# E04 SAE arm" + (" (PILOT)" if a.pilot else ""), "", f"K = {K}, {a.reps} replicates per level, tau = {a.tau}, p_split = {a.p_split}, "
          f"p_absorb = {a.p_absorb}, |r| = {a.split_r}, split recurrence = {a.split_recurrence}.", "",
          "| N_true | clusters / N_true | without splits | Chao2 / N_true | corrected (f̂) | corrected (oracle f) | Ĉ | f̂ | f oracle | Chao2 inf |",
@@ -298,7 +298,7 @@ def main():
                  f"{v['f_hat_mean']:.3f} | {v['f_oracle_mean']:.3f} | {v['chao2_inf']} |")
     L += ["", "| ID | estimate | verdict |", "|---|---|---|"] + \
         [f"| {h['id']} | {h['estimate']} | **{h['verdict']}** |" for h in H]
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     if m is not None:
         manifest.finish(m, outputs=[(out / x).resolve().relative_to(ROOT) for x in

@@ -39,7 +39,7 @@ class Cell:
 
 
 def _read(path, cols):
-    with open(path, newline="") as f:
+    with open(path, newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     if rows and set(cols) - set(rows[0]):
         raise ValueError(f"{path}: missing columns {sorted(set(cols) - set(rows[0]))}")
@@ -107,21 +107,21 @@ def write_cell(directory, cell_id, X, item_ids, identity, runs=None, items=None)
     directory.mkdir(parents=True, exist_ok=True)
     X = np.asarray(X)
     K = X.shape[1]
-    with open(directory / "detections.csv", "w", newline="") as f:
+    with open(directory / "detections.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, DETECTION_COLS)
         w.writeheader()
         for i, j in zip(*np.nonzero(X)):
             w.writerow(dict(cell_id=cell_id, run_idx=j + 1, item_id=item_ids[i],
                             identity=identity, evidence="", score=""))
     runs = runs or [{} for _ in range(K)]
-    with open(directory / "runs.csv", "w", newline="") as f:
+    with open(directory / "runs.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, RUN_COLS)
         w.writeheader()
         for j, r in enumerate(runs):
             base = dict(catcher="", seed="", role="estimation", status="ok", cost_gpu_h="")
             w.writerow({**base, **r, "cell_id": cell_id, "run_idx": j + 1})
     if items:
-        with open(directory / "items.csv", "w", newline="") as f:
+        with open(directory / "items.csv", "w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, ITEM_COLS)
             w.writeheader()
             for item_id, meta in items.items():

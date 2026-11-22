@@ -206,8 +206,8 @@ def main():
     H = hypotheses(rows)
     models = sorted({k[:-len("_status")] for r in rows for k in r if k.endswith("_status")})
     fails = {m: sum(r.get(f"{m}_status") != "ok" for r in rows) for m in models}
-    (out / "cells.json").write_text(json.dumps(rows, indent=1, default=float) + "\n")
-    (out / "hypotheses.json").write_text(json.dumps(dict(hypotheses=H, failures=fails), indent=2) + "\n")
+    (out / "cells.json").write_text(json.dumps(rows, indent=1, default=float) + "\n", encoding="utf-8")
+    (out / "hypotheses.json").write_text(json.dumps(dict(hypotheses=H, failures=fails), indent=2) + "\n", encoding="utf-8")
     cols = ["chao2", "ichao2", "huggins_x1", "huggins_x2_s1.0", "huggins_x3", "huggins_x4", "gchao_x1", "gchao_x4"]
     L = ["# E07 covariate models", "", f"{len(rows)} cells. Relative bias against |U| (median over cells; "
          "share of cells within 10%; CI coverage of |U| where an interval exists).", "",
@@ -220,7 +220,7 @@ def main():
                  f"{fails.get(c, int(np.isnan(b).sum()))} |")
     L += ["", "| ID | estimate | verdict |", "|---|---|---|"] + \
         [f"| {h['id']} | {h['estimate'].replace('|', chr(92) + '|')} | **{h['verdict']}** |" for h in H]
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

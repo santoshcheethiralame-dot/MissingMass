@@ -116,8 +116,8 @@ def main():
         rho = spearmanr(range(len(order)), [stats[L]["neff_over_K"] for L in order]).statistic
         H.append(dict(id="H8b", estimate=float(rho), ci=(np.nan, np.nan), measure="Spearman rho of n_eff/K over L0, L1, L3",
                       verdict="supported" if rho > 0 else ("not supported" if rho < 0 else "inconclusive")))
-    (out / "levels.json").write_text(json.dumps(stats, indent=2, default=float) + "\n")
-    (out / "hypotheses.json").write_text(json.dumps(H, indent=2, default=float) + "\n")
+    (out / "levels.json").write_text(json.dumps(stats, indent=2, default=float) + "\n", encoding="utf-8")
+    (out / "hypotheses.json").write_text(json.dumps(H, indent=2, default=float) + "\n", encoding="utf-8")
     L = ["# E08 analysis", "", f"Truth: {a.truth} (D-013).", "", "| level | K | S | C | Ĉ (95% CI) | Chao2 (lower bound) | n_eff/K | overlap o/e | union recall |",
          "|---|---|---|---|---|---|---|---|---|"]
     for s in stats.values():
@@ -126,7 +126,7 @@ def main():
     L += ["", "| ID | measure | estimate (95% CI) | verdict |", "|---|---|---|---|"]
     for h in H:
         L.append(f"| {h['id']} | {h['measure']} | {h['estimate']:+.3f} ({h['ci'][0]:+.3f}, {h['ci'][1]:+.3f}) | **{h['verdict']}** |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

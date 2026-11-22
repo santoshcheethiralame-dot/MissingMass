@@ -33,6 +33,6 @@ def test_e13_runner(tmp_path):
                     "--testbed", f"E10-A2:{tmp_path}/a2/*:adaptive",
                     "--perms", "4", "--B", "40", "--workers", "2", "--out", str(out)], check=True, capture_output=True)
     s = json.loads((out / "summary.json").read_text())
-    assert [h["id"] for h in s["hypotheses"]] == ["H13a", "H13b", "H13c", "H13d"]
+    assert [h["id"] for h in s["hypotheses"]] == ["H13a", "H13b", "H13c", "R-CS", "H13d"]
     assert s["meta"]["E06"]["pi_from"] == ["reference"] * 3 and s["meta"]["E10-A2"]["adaptive"]
     assert (out / "campaigns.csv.gz").exists()

@@ -256,3 +256,21 @@ def test_coverage_interval_contains_estimate_and_is_reproducible():
 def test_delta_interval_contains_estimate():
     r = cr.delta_interval(MATRICES[1], B=200, seed=2)
     assert r["interval"][0] <= r["estimate"] <= r["interval"][1] and r["se"] > 0
+
+
+def _counts(Q, K):
+    return cr.IncidenceData.from_counts(np.repeat(np.arange(1, len(Q) + 1), Q), K)
+
+
+def test_chiu_chao_singletons_eq5():
+    # Chiu & Chao (2016) Eq. 5 by hand: Q2=10, Q3=5, Q4=2.
+    d = _counts([30, 10, 5, 2], K=5)
+    q1 = 2 * 100 / 15 + 2 * 10 * (10 / 15 - 5 / 8)
+    assert np.isclose(cr.chiu_chao_q1(d), q1)
+    # Eq. 6a with n -> K: S - Q1 + Q1hat + (K-1)/K * Q1hat^2 / (2 Q2).
+    assert np.isclose(cr.chao2_adj(d), 47 - 30 + q1 + 0.8 * q1**2 / 20)
+
+
+def test_chiu_chao_needs_q3_q4():
+    assert np.isnan(cr.chiu_chao_q1(_counts([5, 3, 0, 1], K=5)))
+    assert np.isnan(cr.chao2_adj(_counts([5, 3, 2, 0], K=5)))

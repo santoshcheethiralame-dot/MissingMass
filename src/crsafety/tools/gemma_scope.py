@@ -214,8 +214,8 @@ def from_hf(ft_path, base_path, sae_release, sae_id, labels_path=None, bank_path
     sae = SAE.from_pretrained(sae_release, sae_id, device=device)
     sae = sae[0] if isinstance(sae, tuple) else sae
     layer = hook_layer(sae)
-    labels = json.loads(Path(labels_path).read_text()) if labels_path else None
-    block = json.loads(Path(blocklist_path).read_text())["features"] if blocklist_path else None
+    labels = json.loads(Path(labels_path).read_text(encoding="utf-8")) if labels_path else None
+    block = json.loads(Path(blocklist_path).read_text(encoding="utf-8"))["features"] if blocklist_path else None
     u = chat and user_only
     return WhiteBoxTool(hf_resid(ft, tok, layer, chat, device, u), hf_resid(base, tok, layer, chat, device, u),
                         sae_encoder(sae, device), labels, PromptBank(bank_path, max_new),

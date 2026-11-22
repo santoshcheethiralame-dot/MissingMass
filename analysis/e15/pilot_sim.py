@@ -99,7 +99,7 @@ def main():
                          bias_cal=float(np.mean([r["cal"] - r["C"] for r in R if np.isfinite(r["cal"])])),
                          bias_cj=float(np.mean([r["cj"] - r["C"] for r in R if np.isfinite(r["cj"])])),
                          reduction=float((mj - mc) / mj), share_cal_closer=float((ec[both] < ej[both]).mean())))
-    (out / "cells.json").write_text(json.dumps(rows, indent=1) + "\n")
+    (out / "cells.json").write_text(json.dumps(rows, indent=1) + "\n", encoding="utf-8")
     L = ["# E15-R005 pilot (declared, exploratory): calibration vs Chao-Jost at audit sizes", "",
          f"K = {K}, {a.reps} replicates per cell, mean detectability about 0.25. Mean |error| (MCSE); "
          "reduction = 1 − |cal| / |CJ| (the H15b measure, ≥ 30% supports).", "",
@@ -109,7 +109,7 @@ def main():
         L.append(f"| {r['N']} | {r['M']} | {r['b1']:.0f} | {r['cov_noise']} | {r['abs_err_cal']:.3f} ({r['abs_err_cal_mcse']:.3f}) | "
                  f"{r['abs_err_cj']:.3f} ({r['abs_err_cj_mcse']:.3f}) | {r['reduction']:+.0%} | {r['share_cal_closer']:.2f} | "
                  f"{r['bias_cal']:+.3f} | {r['bias_cj']:+.3f} | {r['fit_failed']} |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     print(f"{time.time() - t0:.0f} s")
     if m is not None:

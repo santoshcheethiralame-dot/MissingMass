@@ -26,6 +26,7 @@ NB = ROOT / "notebook"
 RUNS = NB / "runs.csv"
 LOCKS = NB / "prereg-locks.csv"
 EXP_DIR = NB / "experiments"
+PREREG_PAGE = ROOT / "docs" / "PREREGISTRATION.md"  # locked as "PREREG"
 
 FIELDS = [
     "run_id", "experiment", "title", "owner", "status", "started", "finished",
@@ -65,13 +66,13 @@ def git_commit():
 def read_csv(path, fields):
     if not path.exists():
         return []
-    with path.open(newline="") as f:
+    with path.open(newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     return [{k: r.get(k, "") or "" for k in fields} for r in rows]
 
 
 def write_csv(path, fields, rows):
-    with path.open("w", newline="") as f:
+    with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
         w.writerows(rows)
@@ -87,7 +88,17 @@ def experiment_pages():
     return pages
 
 
+def lockable_pages():
+    """Experiment pages plus the study pre-registration (id PREREG)."""
+    pages = experiment_pages()
+    if PREREG_PAGE.exists():
+        pages["PREREG"] = PREREG_PAGE
+    return pages
+
+
 def norm_exp(exp):
+    if exp.upper() == "PREREG":
+        return "PREREG"
     m = re.fullmatch(r"[Ee]?(\d{1,2})", exp)
     if not m:
         sys.exit(f"bad experiment id: {exp}")
@@ -95,7 +106,7 @@ def norm_exp(exp):
 
 
 def prereg_hash(page):
-    m = PREREG_RE.search(page.read_text())
+    m = PREREG_RE.search(page.read_text(encoding="utf-8"))
     if not m:
         return None
     text = "\n".join(line.rstrip() for line in m.group(1).strip().splitlines())
@@ -168,10 +179,10 @@ def cmd_render(_args):
     rows = read_csv(RUNS, FIELDS)
     pages = experiment_pages()
     for exp, page in pages.items():
-        text = page.read_text()
+        text = page.read_text(encoding="utf-8")
         text, ok = replace_block(text, "runs", run_table([r for r in rows if r["experiment"] == exp]))
         if ok:
-            page.write_text(text)
+            page.write_text(text, encoding="utf-8")
     # Status counts in the registry.
     reg = NB / "REGISTRY.md"
     if reg.exists():
@@ -183,14 +194,14 @@ def cmd_render(_args):
                 f"| {exp} | {len(rs)} | {c['planned']} | {c['running']} | {c['succeeded']} | {c['failed']} |"
             )
         body = "| Exp | Runs | Planned | Running | Succeeded | Failed |\n|---|---|---|---|---|---|\n" + "\n".join(counts)
-        text, _ = replace_block(reg.read_text(), "counts", body)
-        reg.write_text(text)
+        text, _ = replace_block(reg.read_text(encoding="utf-8"), "counts", body)
+        reg.write_text(text, encoding="utf-8")
     print(f"rendered {len(pages)} experiment pages")
 
 
 def cmd_freeze(args):
     exp = norm_exp(args.experiment)
-    page = experiment_pages().get(exp)
+    page = lockable_pages().get(exp)
     if page is None:
         sys.exit(f"no page for {exp}")
     h = prereg_hash(page)
@@ -219,7 +230,7 @@ def cmd_check(_args):
         if r["status"] in ("succeeded", "failed") and not r["summary"]:
             warnings.append(f"{r['run_id']}: {r['status']} but no summary")
     for exp, page in pages.items():
-        text = page.read_text()
+        text = page.read_text(encoding="utf-8")
         for h in REQUIRED_HEADINGS:
             if h not in text:
                 errors.append(f"{page.name}: missing heading '{h}'")
@@ -228,9 +239,10 @@ def cmd_check(_args):
     latest = {}
     for lock in read_csv(LOCKS, LOCK_FIELDS):
         latest[lock["experiment"]] = lock
-    deviations = (NB / "DEVIATIONS.md").read_text() if (NB / "DEVIATIONS.md").exists() else ""
+    deviations = (NB / "DEVIATIONS.md").read_text(encoding="utf-8") if (NB / "DEVIATIONS.md").exists() else ""
+    lockable = lockable_pages()
     for exp, lock in latest.items():
-        page = pages.get(exp)
+        page = lockable.get(exp)
         if page is None:
             errors.append(f"lock for missing experiment {exp}")
             continue
@@ -272,7 +284,7 @@ def main():
     p = sub.add_parser("render", help="refresh run tables in the experiment pages and registry")
     p.set_defaults(func=cmd_render)
 
-    p = sub.add_parser("freeze", help="lock an experiment's pre-registration block")
+    p = sub.add_parser("freeze", help="lock an experiment's pre-registration block (EXX, or PREREG for docs/PREREGISTRATION.md)")
     p.add_argument("experiment")
     p.add_argument("--note")
     p.set_defaults(func=cmd_freeze)

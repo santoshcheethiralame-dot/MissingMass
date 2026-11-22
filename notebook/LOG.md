@@ -1300,3 +1300,276 @@ Kushal.
   families could sit at the floor. §3's contingency covers that.
 
 **Next:** merge, then run K10 on Kaggle (about 1–1.5 session hours).
+
+## 2026-11-04: v1.0 freeze candidate; review of the verdict fix; scoop check
+
+Santosh.
+
+**Did:**
+- **v1.0 candidate.** Applied the agreed freeze items to
+  `PREREGISTRATION.md` (items 1, 2, 3, 8, 10, 16 and 17; FREEZE-V1 has the
+  list).
+  - No † threshold is left.
+  - PH1 uses a per-cell rule for E02/E06 and a pooled rule for E09/E10.
+  - The interval part of PH2 is restricted to testbeds with N ≥ 500.
+  - PH4 and PH5 are judged against the catcher-agnostic truth.
+  - E10 has M = 40.
+  - The minimal detectable effect is reported with each verdict.
+  - Freeze plan: staged (D-015).
+  - §0 prior knowledge now lists everything seen before the freeze.
+  - PH5 is reworded per item 18. The wording is my draft, for Kushal's
+    approval.
+- `DISCLOSURE.md`: item 8 closed (30 days, extendable to 90, Kushal
+  owns it).
+- FREEZE-V1 gets a 2026-11-04 status note.
+- E00/E01 page and registry statuses now record Kushal's approval of
+  2026-10-23.
+- **Reviewed `crsafety.testbed.verdict`** (Kushal's NaN fix in #33, merged
+  without review): **approved.**
+  - A NaN bound now gives "inconclusive".
+  - An infinite bound blocks a verdict only on its open side.
+  - The old code called (−∞, x) "supported"; the fix removes that bug too.
+  - I checked eight edge cases by hand; `tests/test_testbeds.py` passes.
+- **Scoop check** (week of 2026-11-02; Santosh's turn): **no scoop found.**
+  - The check is weak: it rests on search snippets only. arXiv, OpenReview
+    and the Alignment Forum were not reachable directly (Q-D1), so Kushal
+    should repeat the OpenReview (ICLR 2027) search from his machine.
+  - To cite as method neighbours in related work, which also softens
+    "first" for "unseen-richness estimators on repeated LLM runs":
+    - Żatuchin, "Measuring Brand and Source Discovery under Repeated LLM
+      Queries: A Finite-Sample Audit" (arXiv 2609.05059): incidence-based
+      unseen-richness estimators on repeated LLM queries; marketing, no
+      planted truth.
+    - Noorani et al., "Conformal Prediction Beyond the Seen: A Missing
+      Mass Perspective" (arXiv 2506.05497): Good-Turing missing mass as a
+      stopping rule (E13).
+    - "Evaluating the Unseen Capabilities: How Many Theorems Do LLMs Know?"
+      (arXiv 2506.02058): unseen-species estimation of LLM knowledge.
+  - Our claim still stands: validated coverage for safety discovery tools
+    on planted truth, plus the failure map.
+
+**Open for the freeze (Nov 6–8):**
+- Kushal: items 4 (confirm), 5, 6 and 18.
+- Repository owner: item 7 (licences).
+- E02-R001 has not run. Without it, E02 and E03 move to v1.1.
+
+## 2026-11-04 (later): licences decided; Kaggle runs handed to Kushal
+
+Santosh.
+
+**Decided:**
+- D-006 is accepted: code MIT; docs and released data CC BY 4.0. That
+  closes FREEZE-V1 item 7.
+- README has a licence section, and DATA.md no longer says "proposed".
+
+**Asked Kushal:**
+- Run the Kaggle jobs, including my runbook rows 1–4. Row 1, E02-R001 (the
+  zoo inventory, under 0.5 GPU-h), is needed before the Nov 6–8 freeze, or
+  E02/E03 move to v1.1. Rows 2–4 can wait.
+- I keep the analysis of the outputs.
+- E02-R001's notes record the request.
+- Answer freeze items 4 (confirm D-011), 5 and 6 (E05) and 18 (the PH5
+  wording in the v1.0 candidate) before Nov 6.
+
+## 2026-11-22: Freeze prep on a branch; Nov 6–8 date slipped
+
+Santosh.
+
+**Did** (branch `santosh/prereg-v1.0-freeze`):
+- Merged the 2026-11-04 freeze candidate and the E02-R001 Kaggle cells.
+- E02 §2: thresholds without daggers (items 1, 3); leave-cell-out truth
+  primary (item 4). E05 §2: `breakaway_nof1` only (item 6); labelled MI
+  (e2) primary, free mixture (e1) reported (item 5).
+- Moved `<!-- prereg:end -->` below §2a on E02, E03, E05 and E13, so the
+  pre-data implementation notes are locked too.
+- Windows: explicit UTF-8 in text I/O (a lock made on Windows would not
+  have matched CI's hash); drive letters in `analysis/e13/run.py
+  --testbed`; `tests/conftest.py` sets `PYTHONUTF8=1`.
+- Dry run of `freeze` on E02, E03, E05, E13 in a throwaway clone: `check`
+  passed, CRLF and LF hash the same, a tampered block fails `check`.
+- Tests on Windows: 892 passed, 9 skipped, 5 failed. The 5 are in
+  `test_llm` and `test_redteam` (`os.killpg`, path separators, cp1252 in
+  a dry run, fake-vLLM call count). Those modules target Linux/Kaggle;
+  left for Kushal.
+
+**Open for the freeze:**
+- Kushal: items 5, 6, 18 in the freeze PR.
+- E02-R001 has not run. Without it, v1.0 is PREREGISTRATION + E05 + E13.
+- `PREREGISTRATION.md` has no prereg block, so `check` would not catch a
+  post-freeze edit to the thresholds. Decide whether to lock it.
+- New dates for v1.0 and v1.1 at the next sync.
+
+## 2026-11-22 (later): E02-R001 run locally; the zoo is complete
+
+Santosh.
+
+**Did:** ran E02-R001 on this laptop's CPU instead of Kaggle, using cells 2–5
+of `kaggle/E02-R001-cells.md` unchanged in substance. It took 0.29 h (16 min
+of that was the 3.97 GB download) and 0 GPU-h. Outputs are in
+`results/E02/E02-R001/`: inventory, the file list with SHA-256 for both
+repos, and the manifest.
+
+**Found:**
+- **Zoo as described:** 5 architectures (btk, jumprelu, mat, mp, standard),
+  L0 15–45 in steps of 5, seeds 0–4, 175 SAEs, width 4,096, none missing.
+  The world has 16,384 features in d = 768. So E02 and E03 stay in v1.0.
+- **World version:** the world repo is v1. `scale_children_by_parent` is
+  false in its config and on all 10,880 hierarchy nodes. The decoder-based
+  oracle is identical under v1 and v2. Which world the zoo was trained on
+  is settled in R002 against `stats.json`, as the E02 contingencies say.
+- **p_i:** the config sets `compensate_probabilities=true`, so the stored
+  `firing_probabilities` are compensated per-feature rates (max 0.915;
+  10,713 of them > 0.4), not the marginal p_i in [5e-4, 0.4] that E02 §2
+  takes from the generator config.
+  - `zoo.py histories` currently writes the stored rates as the `p`
+    covariate.
+  - Fix this before R002. It affects E07's x1 and E02's exploratory p→π
+    curve; it does not affect H2a–H2d, whose truth comes from catch rates.
+
+## 2026-11-23: E02 p_i is now the marginal rate
+
+Santosh.
+
+**Did:** `analysis/e02/zoo.py` gets a new `marginal_p`, which `load_world`
+now uses.
+- **How it works:** for a world with `compensate_probabilities=true`, it
+  rebuilds the base Zipf p_i from `synthetic_model_config.json`. That is the
+  generator config, which is what E02 §2 names as the source of p_i. It then
+  recomputes SAELens 6.54.12's hierarchy correction from `hierarchy.json`
+  and checks that base × correction reproduces the stored array. It stops
+  with an error if they disagree.
+- **On the 16k world:** the match is within 8e-7 relative error and nothing
+  is clamped, so p_i covers [5e-4, 0.4] in Zipf order.
+- **Tests:** a hand-computed 4-feature world in `tests/test_e02_zoo.py`.
+  Also, `tests/test_e15.py` now skips when torch is missing (installing
+  safetensors had made it run and fail).
+- **What it changes:** only the `p` covariate in the E02 histories (E07
+  x1, the exploratory p→π curve). It does not change H2a–H2d. The R001
+  `inventory.json` keeps the stored rates (p_max 0.915) as the run's
+  record.
+
+## 2026-11-23 (later): Mandatory scouting round every 10 days
+
+Santosh.
+
+**Did:** added `docs/SCOUTING.md`, a research and scouting round every 10
+days, alternating owners, with a calendar to the NeurIPS deadline. It has
+six lanes:
+1. scoops;
+2. near competitors;
+3. new leads;
+4. old ML/NLP methods;
+5. math and statistics outside ML;
+6. cybersecurity and space research.
+
+Proposed as D-018. It replaces the weekly scoop check, which lapsed after
+2026-10-23; RISKS, TEAM, OPEN-QUESTIONS (Q-N4) and CLAUDE.md now point to
+it.
+
+**Next:** round 1 (Santosh) is due today, 2026-11-23. Kushal to accept
+D-018.
+
+## 2026-11-23 (later): Q-D10 answered, world version settled, PREREG lock option
+
+Santosh.
+
+**Did:**
+- **Q-D10 (Chiu-Chao 2016):** read the PeerJ page in a browser (curl gets
+  403).
+  - Eq. 5: Q̂1 = 2Q2²/(3Q3) + 2Q2(Q2/(3Q3) − Q3/(4Q4)). Adjusted Chao2:
+    Eq. 6a, or 6b when Q2 = 0.
+  - Added `chiu_chao_q1` and `chao2_adj` to `crsafety.estimators`
+    (incidence, n → K; hand-computed tests). Not validated in E00.
+  - Whether E05 (c) and E04 H4c use them is a new freeze decision
+    (FREEZE-V1).
+- **Q-D2 (world version):**
+  - All 175 zoo `runner_config.json` files have
+    `scale_children_by_parent=true`, so the zoo was trained on the v2
+    world. The v1 card has a deprecation notice saying the same.
+  - The v1 and v2 `synthetic_model.safetensors` have the same SHA-256.
+    Only `hierarchy.json`/config differ (the 2,688 parent flags). So the
+    R001 inventory, the decoder oracle and p_i hold for both.
+  - `zoo.WORLD_REPO` is now v2. That is the default for `fire_counts.py`,
+    `act_corr.py` and `bakeoff.py`.
+- **Q-D1:** answered for this laptop (Hugging Face and arXiv reachable).
+- **Q-D8:** zoo MIT; the world cards state no licence.
+- **PREREG lock option:**
+  - `notebook.py freeze PREREG` locks `docs/PREREGISTRATION.md` §0–8,
+    which are now inside a prereg block.
+  - Dry run: after the lock, an edit to §3 fails `check`. The E05 hash is
+    unchanged.
+  - Nothing is locked yet; to decide at the freeze.
+
+**No GPU on this laptop:** runbook rows 2–4 and `fire_counts` stay on
+Kaggle.
+
+## 2026-11-23 (later): Scouting round 1
+
+Santosh. First round under `docs/SCOUTING.md` (D-018, proposed). Window
+2026-10-15 to 2026-11-23, so it also covers the lapse of the weekly scoop
+check. All six lanes were covered. Note: `research/notes/scout-2026-11-23.md`.
+
+**Partial scoop (R01 triggered for E13 and the framing):**
+- Li, Hays, Ramdas, Raghavan, arXiv 2611.15835 (2026-11-11). It gives an
+  anytime-valid bound on the probability of an unseen failure mode, used as
+  a stopping rule for testing AI agents.
+- It overlaps E13 (PH6) and our intro. It does not cover K runs of a tool,
+  catcher dependence, identity errors, or the Phase 1 and safety testbeds.
+- Response today: this entry; a message to Kushal (text in the note);
+  D-019 proposed (cite it, and add its bound to E13 as rule R-CS before E13
+  freezes). M4 stays mid-December.
+- No new work from the five near-miss authors in the window.
+
+**Other outcomes:**
+- Read: 7 leads added to `research/reading-list.md`, including a new
+  section on survey completeness in astronomy.
+- Question: Q-N5, a tag-loss model as an E05 correction (exploratory).
+- Act: check the ICLR 2027 accepted workshops after 2026-11-29 and name
+  the M6 target at the next sync.
+- Ignore: 4 leads, already covered or off-topic.
+
+Next round: 2026-12-03, Kushal.
+
+## 2026-11-23 (later): D-019 filed: R-CS preregistered in E13
+
+Santosh. This files what scouting round 1 needs before the v1.0 freeze.
+E13 locks at v1.0, so the change goes into the freeze candidate (PR #36)
+for Kushal's review.
+
+- **E13 §2 (prereg block, not frozen):**
+  - New rule R-CS: the anytime-valid bound of Li et al. (2611.15835),
+    with each run as one draw. Z_k is the share of run k's detections that
+    are new.
+  - R-CS is descriptive and carries no hypothesis.
+  - Exploratory: a detection-level variant.
+  - New contingency: if the authors revise the bound before E13 freezes,
+    update R-CS to match.
+- **E13 §2a (R-CS):**
+  - the reason for adding R-CS, and when;
+  - the implementation details;
+  - our extension to Z values in [0, 1];
+  - the estimand gap (a mean of ratios against a ratio of means);
+  - permutations are draws without replacement, so the i.i.d. assumption
+    holds only approximately.
+- **Prediction, from arithmetic only:** even if no run after the first
+  finds anything new, U(k) first drops below 0.2 at k = 27 and below 0.1
+  at k = 51. On E13's testbeds (K_max ≤ 16) R-CS therefore equals R-fixed.
+  The paper's related work now says so.
+- **Code:** `crsafety.stopping` has `new_share`, `unseen_ucs`, `stop_cs`
+  and `RULES`. `campaign`, `analysis/e13/run.py` (an R-CS line in the
+  summary) and `pilot.py` now include R-CS.
+  - Tests cover the 27/51 thresholds, coverage at a constant rate of 0.05
+    (40 sequences), and no early stop at K = 16.
+  - Full suite: 903 passed. The 4 failures are the known Windows-only ones
+    in `test_llm.py` and `test_redteam.py` (Kushal's code).
+- **Checked against the authors' code by reading it** (commit `293527e`,
+  `src/av_core.py`): the weights, the 0.999 reserve and the e-process
+  match. Running their code side by side was not possible in this session.
+- **Other filings:**
+  - freeze packet item 19, and the E13 row in `FREEZE-V1.md`;
+  - prior knowledge in `PREREGISTRATION.md` §0;
+  - R01 marked "partly triggered" in `RISKS.md`;
+  - related-work paragraph in `paper/drafts/06-related-work.md`.
+- **No pilot run registered.** R-CS cannot fire at the pilot's K = 16, so a
+  pilot would only repeat the arithmetic.
+

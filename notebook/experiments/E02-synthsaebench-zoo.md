@@ -71,9 +71,12 @@ Facts that shape this experiment (from code inspection, 2026-10-22):
 - **U (catchable).** Features caught by at least one SAE of the same
   architecture across all 7 L0 values × 5 seeds (35 SAEs, the reference
   pool). Also reported: N_in = 4,096 and N_all = 16,384.
-- **True coverage C(K).** Σ_{caught in K seeds} π̃_i / Σ_{i∈U} π̃_i. Here π̃_i
-  is estimated from the reference pool, which includes the K seeds being
-  evaluated, so a leave-cell-out variant is also reported.
+- **True coverage C(K).** Σ_{caught in K seeds} π̃_i / Σ_{i∈U} π̃_i. The
+  confirmatory truth for H2a and H2c is **leave-cell-out**: π̃_i is the catch
+  rate over the other 6 L0 cells of the same architecture (30 SAEs), so the
+  evaluated seeds do not inflate it (D-011; FREEZE-V1 item 4). The pooled
+  π̃_i over all 35 SAEs, which includes the evaluated seeds, is reported as
+  secondary.
 - **Δ(m).** Checked by leave-one-seed-out: from 4 seeds, predict the new
   features found by the 5th.
 
@@ -99,9 +102,9 @@ Facts that shape this experiment (from code inspection, 2026-10-22):
 
 | ID | Hypothesis | Measure | Supported if | Not supported if |
 |---|---|---|---|---|
-| H2a (→ PH1) | Oracle-history coverage is accurate | \|Ĉ − C\| per cell | ≤ 0.05† in ≥ 80% of 35 cells | < 70% of cells |
+| H2a (→ PH1) | Oracle-history coverage is accurate | \|Ĉ − C\| per cell | ≤ 0.05 in ≥ 80% of 35 cells | < 70% of cells |
 | H2b (→ PH2) | Chao2 is a lower bound for the catchable set and far from N_all | Chao2 vs \|U\| and N_all | Chao2 < \|U\| in ≥ 90% of cells and < 0.5 N_all in all cells | otherwise |
-| H2c (→ PH3a) | Matching adds more error than heterogeneity | median \|err_matched\| / \|err_oracle\| for Ĉ | ≥ 2† | < 1.25 |
+| H2c (→ PH3a) | Matching adds more error than heterogeneity | median \|err_matched\| / \|err_oracle\| for Ĉ | ≥ 2 | < 1.25 |
 | H2d | Leave-one-seed-out prediction of new features is accurate | median relative error of Δ̂(1) | ≤ 20% | > 40% |
 
 ### Planned runs
@@ -130,7 +133,6 @@ interval. The bootstrap resamples seeds within cells.
 Cells with fewer than 5 usable seeds (missing files) are analysed with the
 seeds available and flagged. If more than 5 cells are incomplete, see the
 contingencies.
-<!-- prereg:end -->
 
 ## 2a. Implementation notes (2026-10-22, before any E02 data)
 
@@ -142,11 +144,14 @@ contingencies.
   firings on 10^6 generator samples; `zoo.py --fire-counts` drops them and
   warns if counts are absent. The pipeline was tested end to end on SAEs
   trained with SAELens's own runner (real file layout).
-- **Open for the freeze (D-011, proposed):** use the leave-cell-out truth
-  as primary. The pooled truth is biased upwards by up to +0.07 under
-  heavy-tailed detectability.
+- **Truth (D-011, agreed for the freeze; FREEZE-V1 item 4):** the
+  leave-cell-out truth is primary (now in §2). The pooled truth is biased
+  upwards by up to +0.07 under heavy-tailed detectability.
+  `analysis/e02/evaluate.py` computes both.
 - Folding JumpReLU thresholds into the decoder does not change |cos|
   matching, so it is a no-op here.
+
+<!-- prereg:end -->
 
 ## 3. Contingencies
 
@@ -165,7 +170,7 @@ contingencies.
 <!-- runs:start -->
 | Run | Title | Owner | Status | Started | Finished | Commit | Summary |
 |---|---|---|---|---|---|---|---|
-| E02-R001 | Download, checksum and inventory zoo | Santosh | planned |  |  | fa922b4+dirty |  |
+| E02-R001 | Download, checksum and inventory zoo | Santosh | succeeded | 2026-11-22 | 2026-11-22 | da0353e | Zoo complete: 5 archs x 7 L0 (15-45) x 5 seeds = 175 SAEs, width 4096, none missing; world 16384 x 768; checksums in repos.json |
 <!-- runs:end -->
 
 ## 5. Results

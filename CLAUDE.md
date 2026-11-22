@@ -23,10 +23,14 @@ the vocabulary in `docs/GLOSSARY.md` ("failure mode", "catcher", "run",
 - **Venues:** arXiv + Alignment Forum Dec 2026 (M4, ~Dec 15–20); ICLR 2027
   workshop ~Feb 1; **NeurIPS 2027 main** ~May 15 (primary); fallbacks SaTML
   2028 / ICLR 2028 / TMLR (D-003).
-- **Status (2026-10-23):** nothing frozen; all of Santosh's code for Stage 2 is written and tested. Waiting on Kushal's reviews, the freeze decisions and Kaggle runs.
-  E00 R001–R004 and E01 R001–R008 done (awaiting Kushal's review); gate G1
-  passed. Prereg is draft v0.2 (interval method changed, D-010). Freeze of
-  prereg v1.0 targeted Nov 6–8.
+- **Status (2026-11-22):** nothing frozen; the Nov 6–8 date slipped.
+  Freeze prep is on branch `santosh/prereg-v1.0-freeze` (2026-11-04
+  candidate and E02-R001 cells merged; E02/E05 §2 carry the agreed
+  wording; §2a now inside the lock; dry run passed). Open: Kushal on
+  items 5/6/18 (4 stands on his review); E02-R001 done 2026-11-22 (175 SAEs,
+  none missing; E02/E03 stay in v1.0; `zoo.py` p_i fixed to marginal); `PREREGISTRATION.md` has no hash lock. Status note in
+  `docs/FREEZE-V1.md`. H3 done; E08-R001 and E10-R002 pilots ready for
+  Kaggle.
 
 ## Team and who I work for
 
@@ -100,8 +104,8 @@ experiment pages are owner-only edits: comment via PR, don't edit them.
 13. Left, CPU after the freeze: E05-R001–R003, E13-R001, then the CPU
     analyses of Kaggle outputs (E06-R014, E07, E04-R001, E11, E15-R004, E16).
 14. Doable any time: paper intro / related work / limitations, Fig. 1
-    concept, weekly scoop check (next ~Oct 29; one done 2026-10-23 within
-    the novelty checks).
+    concept. **Scouting round every 10 days is mandatory** (`docs/SCOUTING.md`;
+    replaces the weekly scoop check, which lapsed after 2026-10-23).
 
 ## Repository map
 
@@ -133,7 +137,12 @@ python tools/notebook.py set E01-R001 status=running
 python tools/notebook.py set E01-R001 status=succeeded summary="<the number that matters>"
 python tools/notebook.py render && python tools/notebook.py check
 python tools/notebook.py freeze E01 --note "prereg v1; reviewed by Kushal"
+python tools/notebook.py freeze PREREG --note "..."   # locks docs/PREREGISTRATION.md §0–8 (if agreed)
 ```
+
+On Windows, set `PYTHONUTF8=1` before redirecting a script's output to a
+file or pipe (the console code page cannot encode Ĉ, Δ, π). File I/O in
+`src/`, `tools/` and `analysis/` already uses UTF-8 explicitly.
 
 R (for validation) is not preinstalled. Recipe in `validation/e00/README.md`
 (R 4.5 env via micromamba fetched from conda-forge; breakaway 5 built from
@@ -201,7 +210,7 @@ PRs unless asked.
 ## Key decisions (DECISIONS.md)
 D-001 safety framing · D-002 coverage + Δ headline, counts as lower bounds ·
 D-003 venues · D-004 plain-git notebook · D-005 tiered prereg with prior
-knowledge disclosed · D-006 (proposed, needs owner) code MIT, docs/data
+knowledge disclosed · D-006 (accepted 2026-11-04) code MIT, docs/data
 CC BY 4.0 · D-007 $0 plan · D-008 estimator formula conventions · D-009
 log-linear ported, breakaway_nof1 via Rscript, Chiu-Chao left out · D-010
 realized-coverage bootstrap intervals (A accepted) + † proposals (B, for
@@ -217,8 +226,8 @@ reliable (E13). Secondary SH1–SH4. † thresholds set after E01.
 ## Open questions relevant to Santosh
 Q-D1 (HF/arXiv access), Q-D2 (zoo contents), Q-D10 (Chiu-Chao formula),
 Q-D13 (SAELens seed unused), Q-D15 (Gemma Scope on Kaggle), Q-N2 (E16
-novelty), Q-N1 (E15 novelty), Q-B3 (Kaggle quota). Weekly scoop check
-alternates between the two (RISKS.md).
+novelty), Q-N1 (E15 novelty), Q-B3 (Kaggle quota). The 10-day scouting
+round alternates between the two (`docs/SCOUTING.md`).
 
 ## Working conventions learned in practice
 
