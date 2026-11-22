@@ -1371,3 +1371,30 @@ Santosh.
 - Answer freeze items 4 (confirm D-011), 5 and 6 (E05) and 18 (the PH5
   wording in the v1.0 candidate) before Nov 6.
 
+## 2026-11-22: Freeze prep on a branch; Nov 6–8 date slipped
+
+Santosh.
+
+**Did** (branch `santosh/prereg-v1.0-freeze`):
+- Merged the 2026-11-04 freeze candidate and the E02-R001 Kaggle cells.
+- E02 §2: thresholds without daggers (items 1, 3); leave-cell-out truth
+  primary (item 4). E05 §2: `breakaway_nof1` only (item 6); labelled MI
+  (e2) primary, free mixture (e1) reported (item 5).
+- Moved `<!-- prereg:end -->` below §2a on E02, E03, E05 and E13, so the
+  pre-data implementation notes are locked too.
+- Windows: explicit UTF-8 in text I/O (a lock made on Windows would not
+  have matched CI's hash); drive letters in `analysis/e13/run.py
+  --testbed`; `tests/conftest.py` sets `PYTHONUTF8=1`.
+- Dry run of `freeze` on E02, E03, E05, E13 in a throwaway clone: `check`
+  passed, CRLF and LF hash the same, a tampered block fails `check`.
+- Tests on Windows: 892 passed, 9 skipped, 5 failed. The 5 are in
+  `test_llm` and `test_redteam` (`os.killpg`, path separators, cp1252 in
+  a dry run, fake-vLLM call count). Those modules target Linux/Kaggle;
+  left for Kushal.
+
+**Open for the freeze:**
+- Kushal: items 5, 6, 18 in the freeze PR.
+- E02-R001 has not run. Without it, v1.0 is PREREGISTRATION + E05 + E13.
+- `PREREGISTRATION.md` has no prereg block, so `check` would not catch a
+  post-freeze edit to the thresholds. Decide whether to lock it.
+- New dates for v1.0 and v1.1 at the next sync.

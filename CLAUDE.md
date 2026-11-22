@@ -23,13 +23,14 @@ the vocabulary in `docs/GLOSSARY.md` ("failure mode", "catcher", "run",
 - **Venues:** arXiv + Alignment Forum Dec 2026 (M4, ~Dec 15–20); ICLR 2027
   workshop ~Feb 1; **NeurIPS 2027 main** ~May 15 (primary); fallbacks SaTML
   2028 / ICLR 2028 / TMLR (D-003).
-- **Status (2026-11-04):** nothing frozen. `PREREGISTRATION.md` is the v1.0
-  freeze candidate (agreed FREEZE-V1 items applied). E00/E01 approved by
-  Kushal (2026-10-23); gate G1 passed. Open before the Nov 6–8 freeze:
-  Kushal on items 4/5/6/18; licences decided (D-006 accepted). Kushal
-  runs the Kaggle rows, incl. Santosh's E02-R001 before Nov 6 (else
-  E02/E03 move to v1.1). H3 (Kaggle LLM stack) done; E08-R001 and
-  E10-R002 pilots ready for Kaggle (~Nov 10).
+- **Status (2026-11-22):** nothing frozen; the Nov 6–8 date slipped.
+  Freeze prep is on branch `santosh/prereg-v1.0-freeze` (2026-11-04
+  candidate and E02-R001 cells merged; E02/E05 §2 carry the agreed
+  wording; §2a now inside the lock; dry run passed). Open: Kushal on
+  items 5/6/18 (4 stands on his review); E02-R001 not run (else E02/E03
+  move to v1.1); `PREREGISTRATION.md` has no hash lock. Status note in
+  `docs/FREEZE-V1.md`. H3 done; E08-R001 and E10-R002 pilots ready for
+  Kaggle.
 
 ## Team and who I work for
 
@@ -137,6 +138,10 @@ python tools/notebook.py set E01-R001 status=succeeded summary="<the number that
 python tools/notebook.py render && python tools/notebook.py check
 python tools/notebook.py freeze E01 --note "prereg v1; reviewed by Kushal"
 ```
+
+On Windows, set `PYTHONUTF8=1` before redirecting a script's output to a
+file or pipe (the console code page cannot encode Ĉ, Δ, π). File I/O in
+`src/`, `tools/` and `analysis/` already uses UTF-8 explicitly.
 
 R (for validation) is not preinstalled. Recipe in `validation/e00/README.md`
 (R 4.5 env via micromamba fetched from conda-forge; breakaway 5 built from

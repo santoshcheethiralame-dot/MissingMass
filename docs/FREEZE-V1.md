@@ -40,6 +40,39 @@ candidate, with the agreed items applied.
   - E08's open v1.1 points: the L3 balancing rule, Petri or the interview
     scaffold, and the judge choice per D-017.
 
+**Status on 2026-11-22 (Santosh).** The Nov 6–8 freeze did not happen:
+no `prereg-v1.0` tag exists, and the 2026-11-04 candidate was never merged
+into `main`. Branch `santosh/prereg-v1.0-freeze` now carries it.
+- **Merged into the freeze branch:** the 2026-11-04 candidate (D-006,
+  freeze items applied) and Kushal's E02-R001 Kaggle cells
+  (`kaggle/E02-R001-cells.md`).
+- **Written into the v1.0 pages' §2 (lock text):**
+  - E02: thresholds 0.05 and 2 (items 1, 3); leave-cell-out truth
+    primary (item 4).
+  - E05: `breakaway_nof1` as the only f1-free estimator (item 6); labelled
+    MI (e2) primary, free mixture (e1) reported (item 5).
+- **Lock scope widened:** on E02, E03, E05 and E13, `<!-- prereg:end -->`
+  now sits after §2a, so the implementation choices fixed before the
+  freeze are hash-locked too. Before, only §2 was.
+- **Windows portability (needed to freeze from Windows):** text I/O now
+  uses UTF-8. Before this, `read_text()` decoded the pages as cp1252 on
+  Windows, so a lock made there would never have matched CI's hash.
+  `analysis/e13/run.py` now handles drive letters in `--testbed`.
+- **Dry run:** in a throwaway clone, `freeze` locked E02, E03, E05 and
+  E13; `check` passed; the hash was the same for CRLF and LF; an edit
+  inside a locked block made `check` fail.
+- **Still needs Kushal (approve in the freeze PR):** items 5 and 6 (E05
+  wording above) and item 18 (PH5 wording in `PREREGISTRATION.md`). Item 4
+  stands on his review §4.
+- **Still needs a run:** E02-R001 (zoo inventory, under 0.5 GPU-h,
+  pre-freeze OK). Without it, E02 and E03 move to v1.1 (D-015).
+- **Gap, to decide together:** `tools/notebook.py freeze` hash-locks
+  experiment pages only. `PREREGISTRATION.md`, which holds every
+  threshold, is protected by the tag, release and DOI, but `check` would
+  not catch an edit to it after the freeze.
+- **Dates:** v1.0 and v1.1 (about Nov 22) have both slipped; new dates are
+  for the next sync.
+
 ## 1. Results the freeze builds on (Kushal reviews)
 
 | Item | Where | What to check |
