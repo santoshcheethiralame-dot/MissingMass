@@ -46,9 +46,14 @@ TARGETS = (0.8, 0.9)
 
 
 def parse(spec):
-    parts = spec.split(":")
-    name, pattern = parts[0], parts[1]
-    return name, sorted(p for p in glob(pattern) if (Path(p) / "runs.csv").exists()), "adaptive" in parts[2:]
+    name, pattern = spec.split(":", 1)
+    adaptive = pattern.endswith(":adaptive")
+    if adaptive:
+        pattern = pattern[: -len(":adaptive")]
+    dirs = sorted(p for p in glob(pattern) if (Path(p) / "runs.csv").exists())
+    if not dirs:
+        sys.exit(f"--testbed {spec}: no PROTOCOLS §10 cell matches {pattern}")
+    return name, dirs, adaptive
 
 
 def one(task):
@@ -137,10 +142,10 @@ def main():
         w.writeheader()
         w.writerows(rows)
     H, per = summarise(rows, meta)
-    (out / "summary.json").write_text(json.dumps(dict(hypotheses=H, per_testbed=per, meta=meta), indent=1, default=float) + "\n")
+    (out / "summary.json").write_text(json.dumps(dict(hypotheses=H, per_testbed=per, meta=meta), indent=1, default=float) + "\n", encoding="utf-8")
     L = ["# E13-R001 stopping rules", "", f"{len(tasks)} campaigns in {time.time() - t0:.0f} s.", "",
          "| ID | estimate | verdict |", "|---|---|---|"] + [f"| {h['id']} | {h['estimate']} | **{h['verdict']}** |" for h in H]
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     if m is not None:
         manifest.finish(m, outputs=[(out / x).relative_to(ROOT) for x in ("campaigns.csv.gz", "summary.json", "summary.md")],

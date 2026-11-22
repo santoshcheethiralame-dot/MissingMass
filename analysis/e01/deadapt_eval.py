@@ -34,7 +34,7 @@ from crsafety.estimators import IncidenceData
 from crsafety.sim import Cell, simulate
 
 ROOT = Path(__file__).resolve().parents[2]
-CFG = json.loads((ROOT / "configs" / "e01" / "cells.json").read_text())
+CFG = json.loads((ROOT / "configs" / "e01" / "cells.json").read_text(encoding="utf-8"))
 MASTER = CFG["master_seed"]
 RUN_CELLS = ("base", "beh0.5", "beh2")
 ARMS = {"non-adaptive": 1.0, "adaptive c=3": 3.0, "adaptive c=10": 10.0}
@@ -127,7 +127,7 @@ def main():
             lr = np.log(v[ok] / tr[ok])
             cells.append(f"{np.median(lr):+.2f} [{np.quantile(lr, .1):+.2f}, {np.quantile(lr, .9):+.2f}] (n={ok.sum()})")
         L.append(f"| {arm} | {np.mean([r['found'] for r in rs]):.1f} | " + " | ".join(cells) + " |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     if m is not None:
         manifest.finish(m, outputs=[(out / "replicates.csv.gz").relative_to(ROOT), (out / "summary.md").relative_to(ROOT)],

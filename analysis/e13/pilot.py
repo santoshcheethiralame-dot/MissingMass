@@ -82,7 +82,7 @@ def main():
                 fails = [r["undershoot"] for r in rs if not r["success"]]
                 L.append(f"| {name} | {t} | {rule} | {succ:.3f} | {np.median([r['saved'] for r in rs]):.2f} | "
                          f"{np.mean(fails) if fails else 0:.3f} |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     if m is not None:
         manifest.finish(m, outputs=[(out / "campaigns.csv.gz").relative_to(ROOT),

@@ -93,7 +93,7 @@ def main():
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
     marks, saes = load(a.dir)
-    stats = json.loads(Path(a.latent_stats).read_text()) if a.latent_stats else None
+    stats = json.loads(Path(a.latent_stats).read_text(encoding="utf-8")) if a.latent_stats else None
     seeds = sorted(saes)
     est, ref = [s for s in seeds if s < 8], [s for s in seeds if s >= 8]
     U, p, mag, held = marks["U"].astype(np.float64), marks["p"], marks["magnitude"], marks["held_out"].astype(bool)
@@ -187,7 +187,7 @@ def main():
                           verdict="supported" if overl >= 3 else "not supported",
                           note="real items' catch rate is among matched clusters, which exist only once found"))
     res["hypotheses"] = H
-    (out / "summary.json").write_text(json.dumps(res, indent=2, default=float) + "\n")
+    (out / "summary.json").write_text(json.dumps(res, indent=2, default=float) + "\n", encoding="utf-8")
     print(json.dumps(res, indent=2, default=float))
 
 

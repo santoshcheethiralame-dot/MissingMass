@@ -100,7 +100,7 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     fires = None
     if a.fire_counts:
-        fires = json.loads(Path(a.fire_counts).read_text())
+        fires = json.loads(Path(a.fire_counts).read_text(encoding="utf-8"))
         fires = fires.get("counts", fires)
     T, p, cells = load_cells(a.world, a.zoo, a.tau_gt, fires)
     rows = []
@@ -139,7 +139,7 @@ def main():
                                  ghost=1 - sc["recall"], merge=1 - sc["precision"], C=C,
                                  C_hat=cr.coverage(d), cov_err=abs(cr.coverage(d) - C), chao2=cr.chao2(d)))
         print(key, "done", flush=True)
-    with open(out / "sweep.csv", "w", newline="") as f:
+    with open(out / "sweep.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, list(rows[0]))
         w.writeheader()
         w.writerows(rows)
@@ -169,8 +169,8 @@ def main():
                                   f"vs plateau {np.median([r['err_at_plateau'] for r in plat]) if plat else float('nan'):.3f}"),
               verdict="n/a (no cells without plateau)" if not nop or not plat else
               ("supported" if np.median([r['best_err'] for r in nop]) > np.median([r['err_at_plateau'] for r in plat]) else "not supported"))]
-    (out / "plateau.json").write_text(json.dumps(res, indent=1, default=float) + "\n")
-    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n")
+    (out / "plateau.json").write_text(json.dumps(res, indent=1, default=float) + "\n", encoding="utf-8")
+    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n", encoding="utf-8")
     print("\n".join(f"{h['id']}: {h['estimate']} -> {h['verdict']}" for h in H))
 
 

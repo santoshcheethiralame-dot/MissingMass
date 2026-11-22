@@ -141,8 +141,8 @@ def main():
             e10e[A] = abs(ej) - abs(rows[A]["err"])
         H.append(dict(id="H10e", measure="|err_judge| - |err_instrumented| per arm (descriptive)",
                       estimate=e10e, ci=(np.nan, np.nan), verdict="descriptive"))
-    (out / "arms.json").write_text(json.dumps(rows, indent=2, default=float) + "\n")
-    (out / "hypotheses.json").write_text(json.dumps(H, indent=2, default=float) + "\n")
+    (out / "arms.json").write_text(json.dumps(rows, indent=2, default=float) + "\n", encoding="utf-8")
+    (out / "hypotheses.json").write_text(json.dumps(H, indent=2, default=float) + "\n", encoding="utf-8")
     L = ["# E10 analysis", "", f"M = {n} blind spots; identity: {a.identity}; truth: {a.truth} (D-013).", "",
          "| arm | C | Ĉ | Ĉ − C |", "|---|---|---|---|"]
     for r in rows.values():
@@ -151,7 +151,7 @@ def main():
     for h in H:
         est = h["estimate"] if isinstance(h["estimate"], dict) else f"{h['estimate']:+.3f} ({h['ci'][0]:+.3f}, {h['ci'][1]:+.3f})"
         L.append(f"| {h['id']} | {h['measure']} | {est} | **{h['verdict']}** |")
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

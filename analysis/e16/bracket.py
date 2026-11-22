@@ -198,7 +198,7 @@ def main():
     res["brackets_unrec"] = {f"{l}-{u}": dict(valid_share=float(np.mean([res[l] <= v["M_unrec"] <= v[u]
                                                                           for v in per.values()])))
                              for l in ("L0", "L1") for u in ("U_res", "U_lin", "U_lit")}
-    (out / "bracket.json").write_text(json.dumps(res, indent=1, default=float) + "\n")
+    (out / "bracket.json").write_text(json.dumps(res, indent=1, default=float) + "\n", encoding="utf-8")
     print(json.dumps({k: v for k, v in res.items() if k != "per_seed"}, indent=1, default=float))
 
 

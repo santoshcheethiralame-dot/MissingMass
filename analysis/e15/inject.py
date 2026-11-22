@@ -79,7 +79,7 @@ class Injector:
 
 
 def cmd_marks(a):
-    mags = json.loads(Path(a.magnitudes).read_text()) if a.magnitudes else None
+    mags = json.loads(Path(a.magnitudes).read_text(encoding="utf-8")) if a.magnitudes else None
     mk = make_marks(a.d, mags, p_lo=a.p_lo, p_hi=a.p_hi)
     Path(a.out).mkdir(parents=True, exist_ok=True)
     np.savez(Path(a.out) / "marks.npz", **mk)
@@ -127,7 +127,7 @@ def cmd_train(a):
         inj.reset(dseed)
         runner.run()
         sdir.mkdir(parents=True, exist_ok=True)
-        (sdir / "mark_fires.json").write_text(json.dumps(dict(tokens=inj.tokens, fires=inj.fires.cpu().tolist())) + "\n")
+        (sdir / "mark_fires.json").write_text(json.dumps(dict(tokens=inj.tokens, fires=inj.fires.cpu().tolist())) + "\n", encoding="utf-8")
         print(dict(seed=k, init=init, data=dseed, seconds=round(time.time() - t0, 1), tokens=inj.tokens), flush=True)
 
 
@@ -164,7 +164,7 @@ def cmd_magnitudes(a):
                 vals.append(c[f > 0].float().cpu().numpy())
     v = np.concatenate(vals)
     q = np.quantile(v, np.linspace(0.005, 0.995, 199)).tolist()
-    Path(a.out).write_text(json.dumps(q) + "\n")
+    Path(a.out).write_text(json.dumps(q) + "\n", encoding="utf-8")
     print(f"{len(saes)} SAEs, {v.size} firings; median contribution {np.median(v):.3f}")
 
 
@@ -195,7 +195,7 @@ def cmd_stats(a):
                 acc[k][1] += f.clamp(min=0).sum(0).double()
             n += x.shape[0]
     res = {k: dict(tokens=n, counts=v[0].cpu().tolist(), act_sums=v[1].cpu().tolist()) for k, v in acc.items()}
-    (out / "latent_stats.json").write_text(json.dumps(res) + "\n")
+    (out / "latent_stats.json").write_text(json.dumps(res) + "\n", encoding="utf-8")
     print(f"{len(saes)} SAEs, {n} tokens")
 
 

@@ -65,13 +65,13 @@ def git_commit():
 def read_csv(path, fields):
     if not path.exists():
         return []
-    with path.open(newline="") as f:
+    with path.open(newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     return [{k: r.get(k, "") or "" for k in fields} for r in rows]
 
 
 def write_csv(path, fields, rows):
-    with path.open("w", newline="") as f:
+    with path.open("w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
         w.writerows(rows)
@@ -95,7 +95,7 @@ def norm_exp(exp):
 
 
 def prereg_hash(page):
-    m = PREREG_RE.search(page.read_text())
+    m = PREREG_RE.search(page.read_text(encoding="utf-8"))
     if not m:
         return None
     text = "\n".join(line.rstrip() for line in m.group(1).strip().splitlines())
@@ -168,10 +168,10 @@ def cmd_render(_args):
     rows = read_csv(RUNS, FIELDS)
     pages = experiment_pages()
     for exp, page in pages.items():
-        text = page.read_text()
+        text = page.read_text(encoding="utf-8")
         text, ok = replace_block(text, "runs", run_table([r for r in rows if r["experiment"] == exp]))
         if ok:
-            page.write_text(text)
+            page.write_text(text, encoding="utf-8")
     # Status counts in the registry.
     reg = NB / "REGISTRY.md"
     if reg.exists():
@@ -183,8 +183,8 @@ def cmd_render(_args):
                 f"| {exp} | {len(rs)} | {c['planned']} | {c['running']} | {c['succeeded']} | {c['failed']} |"
             )
         body = "| Exp | Runs | Planned | Running | Succeeded | Failed |\n|---|---|---|---|---|---|\n" + "\n".join(counts)
-        text, _ = replace_block(reg.read_text(), "counts", body)
-        reg.write_text(text)
+        text, _ = replace_block(reg.read_text(encoding="utf-8"), "counts", body)
+        reg.write_text(text, encoding="utf-8")
     print(f"rendered {len(pages)} experiment pages")
 
 
@@ -219,7 +219,7 @@ def cmd_check(_args):
         if r["status"] in ("succeeded", "failed") and not r["summary"]:
             warnings.append(f"{r['run_id']}: {r['status']} but no summary")
     for exp, page in pages.items():
-        text = page.read_text()
+        text = page.read_text(encoding="utf-8")
         for h in REQUIRED_HEADINGS:
             if h not in text:
                 errors.append(f"{page.name}: missing heading '{h}'")
@@ -228,7 +228,7 @@ def cmd_check(_args):
     latest = {}
     for lock in read_csv(LOCKS, LOCK_FIELDS):
         latest[lock["experiment"]] = lock
-    deviations = (NB / "DEVIATIONS.md").read_text() if (NB / "DEVIATIONS.md").exists() else ""
+    deviations = (NB / "DEVIATIONS.md").read_text(encoding="utf-8") if (NB / "DEVIATIONS.md").exists() else ""
     for exp, lock in latest.items():
         page = pages.get(exp)
         if page is None:

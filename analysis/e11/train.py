@@ -97,7 +97,7 @@ def main():
         log.append(dict(seed=k, init=init, data=dseed, seconds=round(time.time() - t0, 1)))
         print(log[-1], flush=True)
     base.mkdir(parents=True, exist_ok=True)
-    (base / f"train_log_{int(time.time())}.json").write_text(json.dumps(dict(set=a.set, runs=log), indent=1) + "\n")
+    (base / f"train_log_{int(time.time())}.json").write_text(json.dumps(dict(set=a.set, runs=log), indent=1) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

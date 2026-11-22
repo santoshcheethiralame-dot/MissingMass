@@ -100,7 +100,7 @@ def inventory(args):
                cells=len(archs) * len(l0s), expected=dict(archs=5, l0=7, seeds=5, width=4096))
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n")
+    (out / "inventory.json").write_text(json.dumps(inv, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(inv, indent=2))
 
 
@@ -145,7 +145,7 @@ def histories(args):
     world_dir, zoo_dir = local_dir(args.world), local_dir(args.zoo)
     T, p, _ = load_world(world_dir)
     idx = zoo_index(zoo_dir)
-    raw = json.loads(Path(args.fire_counts).read_text()) if args.fire_counts else {}
+    raw = json.loads(Path(args.fire_counts).read_text(encoding="utf-8")) if args.fire_counts else {}
     fires = raw.get("counts", raw)  # fire_counts.py nests them under "counts"
     act_sums, n_samples = raw.get("act_sums", {}), raw.get("samples")
     pre, noise = {}, {}
@@ -194,14 +194,14 @@ def histories(args):
             write_cell(d, cell, X, [f"c{i}" for i in range(X.shape[0])], f"matched:M1@{tau:.2f}", runs=runs)
             problems += bool(check_cell(d))
         print(cell, "done", flush=True)
-    (Path(args.out) / "preprocessing.json").write_text(json.dumps(pre, indent=1) + "\n")
+    (Path(args.out) / "preprocessing.json").write_text(json.dumps(pre, indent=1) + "\n", encoding="utf-8")
     pooled = np.concatenate([v for v in noise.values()]) if noise else np.empty(0)
     q = np.linspace(0, 1, 1001)
     (Path(args.out) / "true_match_cosines.json").write_text(json.dumps(dict(
         note="|cos| between latents of two seeds assigned to the same true feature at |cos| >= 0.7 (E04 noise model)",
         quantiles=q.tolist(), pooled=np.quantile(pooled, q).tolist() if pooled.size else [], n_pooled=int(pooled.size),
         cells={c: dict(n=int(v.size), quantiles=np.quantile(v, q[::10]).tolist() if v.size else []) for c, v in noise.items()},
-    )) + "\n")
+    )) + "\n", encoding="utf-8")
     if not fires:
         print("WARNING: no --fire-counts given: dead latents were not removed (E02 §2 asks for it)")
     print(f"{len(cells)} cells written to {out}; cells failing check_cell: {problems}")

@@ -103,8 +103,8 @@ def main():
     med = float(np.nanmedian([abs(r["delta_rel_err"]) for r in rows.values()]))
     H.append(dict(id="H6e", estimate=f"median |relative error| of Delta_hat(8) = {med:.3f}",
                   verdict="supported" if med <= 0.2 else ("not supported" if med > 0.4 else "inconclusive")))
-    (out / "cells.json").write_text(json.dumps(rows, indent=1, default=float) + "\n")
-    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n")
+    (out / "cells.json").write_text(json.dumps(rows, indent=1, default=float) + "\n", encoding="utf-8")
+    (out / "hypotheses.json").write_text(json.dumps(H, indent=2) + "\n", encoding="utf-8")
     L = ["# E06 analysis", "", f"{n} cells; truth = {a.truth}.", "",
          "| cell | |U| | C(16) | Ĉ(16) (95% CI) | median \\|Ĉ−C\\| K=8 | Chao2/N_true | Δ (8 ref seeds) | Δ̂ | n_eff/K |",
          "|---|---|---|---|---|---|---|---|---|"]
@@ -113,7 +113,7 @@ def main():
                  f"{r.get('abs_err_K8_median', float('nan')):.3f} | {r['chao2_over_Ntrue']:.2f} | {r['delta_ref']} | "
                  f"{r['delta_hat']:.1f} | {r['neff_over_K']:.2f} |")
     L += ["", "| ID | estimate | verdict |", "|---|---|---|"] + [f"| {h['id']} | {h['estimate']} | **{h['verdict']}** |" for h in H]
-    (out / "summary.md").write_text("\n".join(L) + "\n")
+    (out / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

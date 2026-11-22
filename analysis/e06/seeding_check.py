@@ -75,7 +75,7 @@ def main():
     res = dict(rows=rows, init_controls_W_dec=ok_init, data_controls_batch=ok_data, passed=ok_init and ok_data,
                sae_lens=sae_lens.__version__, torch=torch.__version__,
                runner_config_has_seed_field=any("seed" in f for f in SyntheticSAERunnerConfig.__dataclass_fields__))
-    (out / "seeding_check.json").write_text(json.dumps(res, indent=2) + "\n")
+    (out / "seeding_check.json").write_text(json.dumps(res, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({k: v for k, v in res.items() if k != "rows"}, indent=2))
     if m is not None:
         manifest.finish(m, outputs=[(out / "seeding_check.json").resolve().relative_to(ROOT)],

@@ -18,7 +18,7 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 RES = ROOT / "results" / "E01"
-CFG = json.loads((ROOT / "configs" / "e01" / "cells.json").read_text())
+CFG = json.loads((ROOT / "configs" / "e01" / "cells.json").read_text(encoding="utf-8"))
 BASE = dict(N=500, K=10, het="logitnormal", sigma=1.0, alpha=1.0, families=0, tau=1.5,
             dep_or=0.0, c=1.0, nested_k=0.0, ghost=0.0, merge=0.0, mean_p=0.2)
 PREREG_RUNS = ("R001", "R002", "R003", "R004")  # R006 is an exploratory addition (§5)
@@ -177,11 +177,11 @@ def main():
         r = P.get((cell, est, target, kind))
         return np.nan if r is None else r[key]
 
-    with open(out_dir / "performance.csv", "w", newline="") as f:
+    with open(out_dir / "performance.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, list(perf[0]))
         w.writeheader()
         w.writerows(perf)
-    with open(out_dir / "cells.csv", "w", newline="") as f:
+    with open(out_dir / "cells.csv", "w", newline="", encoding="utf-8") as f:
         keys = []
         for s in summ.values():
             keys += [k for k in s if k not in keys]
@@ -189,7 +189,7 @@ def main():
         w.writeheader()
         w.writerows(summ.values())
     if bsumm:
-        with open(out_dir / "bootstrap_cells.csv", "w", newline="") as f:
+        with open(out_dir / "bootstrap_cells.csv", "w", newline="", encoding="utf-8") as f:
             keys = []
             for s in bsumm.values():
                 keys += [k for k in s if k not in keys]
@@ -258,7 +258,7 @@ def main():
                       estimate=f"{d:+.4f} (MCSE {np.hypot(s1, s6):.4f})", cells=2,
                       detail=f"fam1 {b1:+.4f}; fam2 {cov_bias('fam2')[0]:+.4f}; fam3 {cov_bias('fam3')[0]:+.4f}; fam6 {b6:+.4f}",
                       verdict=verdict(d >= 0.05, d < 0.02)))
-    with open(out_dir / "hypotheses.csv", "w", newline="") as f:
+    with open(out_dir / "hypotheses.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, list(H[0]))
         w.writeheader()
         w.writerows(H)
@@ -395,11 +395,11 @@ def main():
             rzs.append(dict(cell=cid, cover_realized=a[0], cover_realized_mcse=a[1], cover_bc=b[0],
                             cover_bc_mcse=b[1], one_sided=one, width_median=w, delta_cover=da[0],
                             delta_cover_bc=db[0], inext_normal_cover=ref))
-        with open(out_dir / f"realized_bootstrap_{tag}.csv", "w", newline="") as f:
+        with open(out_dir / f"realized_bootstrap_{tag}.csv", "w", newline="", encoding="utf-8") as f:
             wr = csv.DictWriter(f, list(rzs[0]))
             wr.writeheader()
             wr.writerows(rzs)
-    (out_dir / "summary.md").write_text("\n".join(L) + "\n")
+    (out_dir / "summary.md").write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L[:12 + len(H)]))
 
 
