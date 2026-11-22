@@ -98,6 +98,7 @@ Full details and numbers are in [`notes/`](notes/).
 - Bron et al., Chao as a stopping rule in technology-assisted review, [2404.01176](https://arxiv.org/abs/2404.01176) ✓.
 - Spring (2023), *How many undiscovered vulnerabilities remain*, [2304.09259](https://arxiv.org/abs/2304.09259) ✓.
 - Mane, Srivastava, Hwang (2005), *Estimating missed actual positives using independent classifiers* ~.
+- Li and Kanoulas (2020), TAR stopping by sampling residual relevant documents, ACM TOIS ~ (scout 2026-11-23).
 
 ## SAEs: consistency, matching, ground truth, theory
 
@@ -114,6 +115,7 @@ Full details and numbers are in [`notes/`](notes/).
 - Michaud et al., *The quantization model of neural scaling*, [2303.13506](https://arxiv.org/abs/2303.13506) ✓; *Progressive coding for SAEs* (frequency spectra), [2505.00190](https://arxiv.org/abs/2505.00190) ~.
 - Karvonen et al., *Board game models*, [2408.00113](https://arxiv.org/abs/2408.00113) ✓ (known-subpopulation testbed); Heap et al., *SAEs on random transformers*, [2501.17727](https://arxiv.org/abs/2501.17727) ✓ (null control).
 - Cui et al., *On the limits of SAEs*, [2506.15963](https://arxiv.org/abs/2506.15963) ✓; Tang et al., *Piecewise biconvexity and spurious minima*, [2512.05534](https://arxiv.org/abs/2512.05534) ✓; *Toward identifiable SAEs*, [2605.31245](https://arxiv.org/abs/2605.31245) ~.
+- Choi et al., *Consistent concept discovery with sparse coding* (ConSDL), [2610.23801](https://arxiv.org/abs/2610.23801) ✓ (better cross-seed consistency than six SAE baselines; scout 2026-11-23).
 
 ## Red teams, audits, control, reward hacking
 
@@ -133,6 +135,7 @@ Full details and numbers are in [`notes/`](notes/).
   - TDC 2023 insights, [2404.13660](https://arxiv.org/abs/2404.13660) ✓.
 - Constitutional Classifiers, [2501.18837](https://arxiv.org/abs/2501.18837) ✓ (the zero-capture case).
 - STING / *Helpful to a Fault*, [2602.16346](https://arxiv.org/abs/2602.16346) ✓; Kaur, *What AI red-team evaluations can and cannot prove*, [2607.21735](https://arxiv.org/abs/2607.21735) ✓; SCARCE, [2606.29623](https://arxiv.org/abs/2606.29623) ~.
+- Tava, *Attacker diversity reduction in adaptive LLM red teaming*, [2611.19680](https://arxiv.org/abs/2611.19680) ✓ (RL attackers narrow across runs; PH5). Kurakin et al., *Scaling adaptive prompt injection attacks with agent swarms*, [2611.11861](https://arxiv.org/abs/2611.11861) ✓ ("human red-teaming may be nearing saturation"; intro). Scout 2026-11-23.
 
 ## Dependence between LLM catchers, and identity via LLMs
 
@@ -148,7 +151,15 @@ Full details and numbers are in [`notes/`](notes/).
 - Kalai and Vempala, *Calibrated language models must hallucinate*, [2311.14648](https://arxiv.org/abs/2311.14648) ✓; Kalai et al., *Why language models hallucinate*, [2509.04664](https://arxiv.org/abs/2509.04664) ✓.
 - KnowSum, [2506.02058](https://arxiv.org/abs/2506.02058) ✓; McCabe et al., *Semantic alphabet size*, [2509.14478](https://arxiv.org/abs/2509.14478) ✓; SHADE, [2604.19162](https://arxiv.org/abs/2604.19162) ✓; Blind-Spot Mass, [2604.05057](https://arxiv.org/abs/2604.05057) ✓.
 - Jones et al., *Forecasting rare language model behaviors*, [2502.16797](https://arxiv.org/abs/2502.16797) ✓; Wu and Hilton, *Estimating the probabilities of rare outputs*, [2410.13211](https://arxiv.org/abs/2410.13211) ✓; Angell et al., *Estimating tail risks*, [2604.22167](https://arxiv.org/abs/2604.22167) ✓; Parulekar and Liu, [2607.18454](https://arxiv.org/abs/2607.18454) ~.
+- Li, Hays, Ramdas, Raghavan, *Controlling the probability of unknown unknowns in pre-deployment testing of AI systems*, [2611.15835](https://arxiv.org/abs/2611.15835) ✓ (anytime-valid bound on unseen-failure probability; partial scoop of E13, D-019). Feldman, Kale, Raman, Talwar, *A unified framework for probability estimation of data-dependent events*, [2610.41244](https://arxiv.org/abs/2610.41244) ✓ (Good-Turing for sample-selected regions). Scout 2026-11-23.
 - Lakkaraju et al., *Identifying unknown unknowns in the open world*, [1610.09064](https://arxiv.org/abs/1610.09064) ✓; Kossen et al., *Active testing*, [2103.05331](https://arxiv.org/abs/2103.05331) ✓.
+
+## Survey completeness (astronomy)
+
+Planted-signal calibration and debiasing in other fields (scout 2026-11-23).
+
+- Christiansen et al. (2020), *Measuring transit signal recovery in the Kepler pipeline IV: completeness of DR25*, [2010.04796](https://arxiv.org/abs/2010.04796) ~ (injection-recovery; a one-variable detection model failed, two were needed; precedent for E15).
+- Granvik et al. (2018), *Debiased orbit and absolute-magnitude distributions for NEOs*, [1804.10265](https://arxiv.org/abs/1804.10265) ~; NEOMOD 2, [2312.09406](https://arxiv.org/abs/2312.09406) ~; ATLAS debiased NEO population, [2409.10453](https://arxiv.org/abs/2409.10453) ~ (efficiency in a few covariates misleads when hidden ones matter; E07).
 
 ## Datasets and code
 

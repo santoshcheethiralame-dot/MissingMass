@@ -85,7 +85,7 @@ Reading list / OPEN-QUESTIONS Q-.. / RISKS / DECISIONS D-.. / experiment ...
 
 | Round | Due | Owner | Focus | Done (note) |
 |---|---|---|---|---|
-| 1 | 2026-11-23 | Santosh | | |
+| 1 | 2026-11-23 | Santosh | | `research/notes/scout-2026-11-23.md` |
 | 2 | 2026-12-03 | Kushal | | |
 | 3 | 2026-12-13 | Santosh | before the preprint (M4): do lanes 1–2 in full | |
 | 4 | 2026-12-23 | Kushal | | |

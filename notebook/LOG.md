@@ -1502,3 +1502,31 @@ Santosh.
 
 **No GPU on this laptop:** runbook rows 2–4 and `fire_counts` stay on
 Kaggle.
+
+## 2026-11-23 (later): Scouting round 1
+
+Santosh. First round under `docs/SCOUTING.md` (D-018, proposed). Window
+2026-10-15 to 2026-11-23, so it also covers the lapse of the weekly scoop
+check. All six lanes were covered. Note: `research/notes/scout-2026-11-23.md`.
+
+**Partial scoop (R01 triggered for E13 and the framing):**
+- Li, Hays, Ramdas, Raghavan, arXiv 2611.15835 (2026-11-11). It gives an
+  anytime-valid bound on the probability of an unseen failure mode, used as
+  a stopping rule for testing AI agents.
+- It overlaps E13 (PH6) and our intro. It does not cover K runs of a tool,
+  catcher dependence, identity errors, or the Phase 1 and safety testbeds.
+- Response today: this entry; a message to Kushal (text in the note);
+  D-019 proposed (cite it, and add its bound to E13 as rule R-CS before E13
+  freezes). M4 stays mid-December.
+- No new work from the five near-miss authors in the window.
+
+**Other outcomes:**
+- Read: 7 leads added to `research/reading-list.md`, including a new
+  section on survey completeness in astronomy.
+- Question: Q-N5, a tag-loss model as an E05 correction (exploratory).
+- Act: check the ICLR 2027 accepted workshops after 2026-11-29 and name
+  the M6 target at the next sync.
+- Ignore: 4 leads, already covered or off-topic.
+
+Next round: 2026-12-03, Kushal.
+

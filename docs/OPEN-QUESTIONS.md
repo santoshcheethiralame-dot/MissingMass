@@ -36,6 +36,7 @@ gate an experiment.
 | Q-N2 | Has anyone bounded missed SAE features from above using the reconstruction residual? | E16 | answered 2026-10-23 (E16-R001): nothing found; closest is Engels et al. 2025, whose decomposition the upper bound builds on. `research/notes/J-e16-novelty.md` |
 | Q-N3 | Has anyone used open-population capture-recapture (Cormack-Jolly-Seber) to separate removal from concealment after safety training? | E17 | open |
 | Q-N4 | Research and scouting round every 10 days (`SCOUTING.md`; replaces the weekly scoop check) | all | recurring |
+| Q-N5 | Can a latent-multinomial tag-loss model (Skopalova and Zhang, [2610.30447](https://arxiv.org/abs/2610.30447), no double tagging) serve as an E05 identity-error correction, treating a failure matched as two items as a lost tag? Exploratory, after the E05 freeze | E05 | open (scout 2026-11-23) |
 
 ## Numbers to verify in primary sources before citing
 
