@@ -6,7 +6,7 @@ and log it.
 
 | ID | Risk | L | I | Signal (trigger) | Response | Owner doc |
 |---|---|---|---|---|---|---|
-| R01 | **Scooped on Phase 1** (Gerasimov, Ghosh, Paulo and Belrose, or Kansal publish population estimates for SAEs or audits) | M | H | New arXiv paper or repo found by the 10-day scouting round (`SCOUTING.md`, lane 1) | Preprint fast (M4). Re-centre on the safety experiments (E08–E10), which no near-miss covers. Cite and build on it. | ROADMAP |
+| R01 | **Scooped on Phase 1** (Gerasimov, Ghosh, Paulo and Belrose, or Kansal publish population estimates for SAEs or audits) | M | H | New arXiv paper or repo found by the 10-day scouting round (`SCOUTING.md`, lane 1) | Preprint fast (M4). Re-centre on the safety experiments (E08–E10), which no near-miss covers. Cite and build on it. Partly triggered 2026-11-23 by arXiv 2611.15835 (E13 and framing only): handled by D-019 | ROADMAP |
 | R02 | **Coverage estimator fails in simulation** | L | H | Gate G1 | See G1: verify code, re-scope to a failure-analysis paper | E01 |
 | R03 | **Matching cannot be made reliable** | M | H | Gate G2 | Use testbeds with identity by construction; soft matching + multiple imputation; sensitivity bands | E03, E05 |
 | R04 | **AuditBench-lite organisms fail** (Gemma-2-2B cannot hold the behaviours) | M | H | E09-R002 implant verification | Pre-freeze switch to a ≤ 9B base model with QLoRA; or drop T3 (white-box) | E09 |

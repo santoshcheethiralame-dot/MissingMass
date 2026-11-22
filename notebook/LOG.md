@@ -1530,3 +1530,46 @@ check. All six lanes were covered. Note: `research/notes/scout-2026-11-23.md`.
 
 Next round: 2026-12-03, Kushal.
 
+## 2026-11-23 (later): D-019 filed: R-CS preregistered in E13
+
+Santosh. This files what scouting round 1 needs before the v1.0 freeze.
+E13 locks at v1.0, so the change goes into the freeze candidate (PR #36)
+for Kushal's review.
+
+- **E13 §2 (prereg block, not frozen):**
+  - New rule R-CS: the anytime-valid bound of Li et al. (2611.15835),
+    with each run as one draw. Z_k is the share of run k's detections that
+    are new.
+  - R-CS is descriptive and carries no hypothesis.
+  - Exploratory: a detection-level variant.
+  - New contingency: if the authors revise the bound before E13 freezes,
+    update R-CS to match.
+- **E13 §2a (R-CS):**
+  - the reason for adding R-CS, and when;
+  - the implementation details;
+  - our extension to Z values in [0, 1];
+  - the estimand gap (a mean of ratios against a ratio of means);
+  - permutations are draws without replacement, so the i.i.d. assumption
+    holds only approximately.
+- **Prediction, from arithmetic only:** even if no run after the first
+  finds anything new, U(k) first drops below 0.2 at k = 27 and below 0.1
+  at k = 51. On E13's testbeds (K_max ≤ 16) R-CS therefore equals R-fixed.
+  The paper's related work now says so.
+- **Code:** `crsafety.stopping` has `new_share`, `unseen_ucs`, `stop_cs`
+  and `RULES`. `campaign`, `analysis/e13/run.py` (an R-CS line in the
+  summary) and `pilot.py` now include R-CS.
+  - Tests cover the 27/51 thresholds, coverage at a constant rate of 0.05
+    (40 sequences), and no early stop at K = 16.
+  - Full suite: 903 passed. The 4 failures are the known Windows-only ones
+    in `test_llm.py` and `test_redteam.py` (Kushal's code).
+- **Checked against the authors' code by reading it** (commit `293527e`,
+  `src/av_core.py`): the weights, the 0.999 reserve and the e-process
+  match. Running their code side by side was not possible in this session.
+- **Other filings:**
+  - freeze packet item 19, and the E13 row in `FREEZE-V1.md`;
+  - prior knowledge in `PREREGISTRATION.md` §0;
+  - R01 marked "partly triggered" in `RISKS.md`;
+  - related-work paragraph in `paper/drafts/06-related-work.md`.
+- **No pilot run registered.** R-CS cannot fire at the pilot's K = 16, so a
+  pilot would only repeat the arithmetic.
+

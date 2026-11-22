@@ -23,6 +23,8 @@ Summary (H13a-d):
 - H13b: median runs saved by R-lower at 0.9 on the same set.
 - H13c: R-point vs R-lower success on the same set.
 - H13d: R-lower success at 0.9, E10-A2 vs E10-A1.
+- R-CS (D-019): comparator, descriptive only. Success and median runs saved
+  at 0.9 on the H13a set.
 """
 
 import argparse
@@ -38,7 +40,7 @@ from pathlib import Path
 import numpy as np
 
 from crsafety import manifest, testbed
-from crsafety.stopping import campaign
+from crsafety.stopping import RULES, campaign
 
 ROOT = Path(__file__).resolve().parents[2]
 MASTER = 20261035
@@ -93,6 +95,10 @@ def summarise(rows, meta):
         sp = succ(pt)
         H.append(dict(id="H13c", estimate=f"success at 0.9: R-point {sp:.3f} vs R-lower {s:.3f}",
                       verdict="supported" if sp < s else "not supported"))
+    cs = sel("R-CS", 0.9, pooled)
+    if cs:
+        H.append(dict(id="R-CS", estimate=f"comparator (D-019): success at 0.9 = {succ(cs):.3f}, median runs saved "
+                      f"{float(np.median([r['saved'] for r in cs])):.0%}", verdict="descriptive"))
     a1 = sel("R-lower", 0.9, lambda r: r["testbed"] == "E10-A1")
     a2 = sel("R-lower", 0.9, lambda r: r["testbed"] == "E10-A2")
     if a1 and a2:
@@ -100,7 +106,7 @@ def summarise(rows, meta):
                       verdict="supported" if succ(a2) < succ(a1) else "not supported"))
     per = {}
     for tb_ in sorted({r["testbed"] for r in rows}):
-        for rule in ("R-point", "R-lower", "R-fixed"):
+        for rule in RULES:
             for t in TARGETS:
                 rs = sel(rule, t, lambda r, tb_=tb_: r["testbed"] == tb_)
                 per[f"{tb_}|{rule}|{t}"] = dict(success=succ(rs), median_saved=float(np.median([r["saved"] for r in rs])),

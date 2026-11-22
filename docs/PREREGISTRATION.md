@@ -58,6 +58,10 @@ This is not a blind start. Before v1.0 we had seen:
   - E08 serving checks (R008–R013);
   - E09 tool checks (R003, R009, R010);
   - E06/E11 seeding checks.
+- the literature found by scouting round 1 (2026-11-23,
+  `research/notes/scout-2026-11-23.md`). Li et al. (arXiv 2611.15835) led
+  to the E13 comparator R-CS (D-019). Its predicted behaviour comes from the
+  bound's arithmetic, not from data.
 
 We had **not** seen any SynthSAEBench SAE weights or features, any audit
 output from an LLM auditor, or any LLM attacker's output against the E10

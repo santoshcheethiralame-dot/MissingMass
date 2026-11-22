@@ -20,7 +20,7 @@ import numpy as np
 
 from crsafety import manifest
 from crsafety.sim import Cell, simulate
-from crsafety.stopping import campaign
+from crsafety.stopping import RULES, campaign
 
 ROOT = Path(__file__).resolve().parents[2]
 MASTER = 20261035
@@ -76,7 +76,7 @@ def main():
          "|---|---|---|---|---|---|"]
     for name in WORLDS:
         for t in (0.8, 0.9):
-            for rule in ("R-point", "R-lower", "R-fixed"):
+            for rule in RULES:
                 rs = [r for r in rows if r["world"] == name and r["target"] == t and r["rule"] == rule]
                 succ = np.mean([r["success"] for r in rs])
                 fails = [r["undershoot"] for r in rs if not r["success"]]

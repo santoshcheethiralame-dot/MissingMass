@@ -96,6 +96,14 @@ into `main`. Branch `santosh/prereg-v1.0-freeze` now carries it.
   computed under both versions.
 - **Dates:** v1.0 and v1.1 (about Nov 22) have both slipped; new dates are
   for the next sync.
+- **New on 2026-11-23: an E13 comparator (item 19, D-019).**
+  - Scouting round 1 found Li, Hays, Ramdas and Raghavan (arXiv
+    2611.15835), an anytime-valid stopping bound.
+  - E13 §2 now adds it as rule R-CS. It is descriptive, with no hypothesis.
+  - The arithmetic says it cannot stop before 27 runs (target 0.8) or 51
+    runs (target 0.9). On E13's testbeds it will therefore act as R-fixed.
+  - Code is in `crsafety.stopping`, with tests. Kushal reviews it with the
+    E13 page.
 
 ## 1. Results the freeze builds on (Kushal reviews)
 
@@ -126,6 +134,7 @@ into `main`. Branch `santosh/prereg-v1.0-freeze` now carries it.
 | 15 | E15 SAE arm | Pooled-12 truth for marks; observed covariates via proxy map primary; H15c compares marks conditional on ≥ 1 catch; **pilot R005: 6 marks make calibration worse than Chao-Jost, ≥ 20 needed; H15b's 30% unlikely where Chao-Jost holds** | E15 §2a; E15-R005 |
 | 16 | E08/E10 primary truth (Kushal's review) | D-013 code supports both. Kushal proposes the catcher-agnostic truth (`cells:L3` for E08, `cells:A1,A5` or all arms for E10) as co-primary for H8a/H10b; own-reference truth secondary. Santosh agrees | D-013; review §5 |
 | 17 | PH1 † for E09/E10 (Kushal's counter-proposal) | Pool Ĉ − C over cells and items with a bootstrap CI: supported if the CI lies within ±0.10; not supported if it excludes 0 by > 0.05; state that E09/E10 are underpowered for PH1 and E02/E06 carry it. Santosh agrees; replaces D-010 B's E09/E10 part | review, positions |
+| 19 | E13 comparator R-CS (scouting round 1) | Add Li et al.'s anytime bound (arXiv 2611.15835) to E13 as rule R-CS: descriptive, no hypothesis; prediction from arithmetic: it cannot stop before k = 27 / 51 for targets 0.8 / 0.9. Proposed by Santosh; Kushal to review | D-019; E13 §2, §2a (R-CS) |
 | 18 | PH5 wording (Kushal's review §2.1) | Reword PH5 so the direction follows the adaptation: cross-run revisiting overstates coverage, steering to new holes understates it (E01 H1d: +0.07 vs −0.15); within-run adaptation is tested against the catcher-agnostic truth (item 16) | review §2.1, §5 |
 
 ## 3. Staged freeze (D-015): pages to lock at v1.0, v1.1 and v1.2
@@ -156,7 +165,7 @@ Conditions (Santosh):
 | E02 | v1.0 | Santosh → Kushal | R001 inventory on Kaggle (allowed before the freeze) | code ready (`analysis/e02/`); run R001 first |
 | E03 | v1.0 | Santosh → Kushal | uses E02-R001 | code ready (`analysis/e03/bakeoff.py`) |
 | E05 | v1.0 | Santosh → Kushal | R004, R005 done | §2a drafted; decisions 5–6; confirmatory scripts ready: `analysis/e05/run.py`, `analyse.py` |
-| E13 | v1.0 | Santosh → Kushal | R003 (simulated) done | confirmatory runner ready: `analysis/e13/run.py`; data from E02/E06/E09/E10 later |
+| E13 | v1.0 | Santosh → Kushal | R003 (simulated) done | confirmatory runner ready: `analysis/e13/run.py` (R-CS added 2026-11-23, item 19); data from E02/E06/E09/E10 later |
 | E08 | v1.1 | Kushal → Santosh | R001, R002; judge check H4 | frozen analysis script ready: `analysis/e08/analyse.py` (`--truth`, D-013) |
 | E10 | v1.1 | Kushal → Santosh | R001 (monitor, M = 40), R002 (difficulty) | frozen analysis script ready: `analysis/e10/analyse.py`; decision 10 |
 | E09 | v1.2 | Kushal → Santosh | R004 (pilot organisms, Dec 18) | frozen analysis script ready: `analysis/e09/analyse.py`; T3 tool per D-014 |
