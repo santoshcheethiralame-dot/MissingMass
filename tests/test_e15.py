@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_e15_end_to_end(tmp_path):
     pytest.importorskip("safetensors")
+    pytest.importorskip("torch")
     from safetensors.numpy import save_file
     sys.path.insert(0, str(ROOT / "analysis" / "e15"))
     import inject

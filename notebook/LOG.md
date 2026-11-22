@@ -1425,3 +1425,25 @@ repos, and the manifest.
     covariate.
   - Fix this before R002. It affects E07's x1 and E02's exploratory p→π
     curve; it does not affect H2a–H2d, whose truth comes from catch rates.
+
+## 2026-11-23: E02 p_i is now the marginal rate
+
+Santosh.
+
+**Did:** `analysis/e02/zoo.py` gets a new `marginal_p`, which `load_world`
+now uses.
+- **How it works:** for a world with `compensate_probabilities=true`, it
+  rebuilds the base Zipf p_i from `synthetic_model_config.json`. That is the
+  generator config, which is what E02 §2 names as the source of p_i. It then
+  recomputes SAELens 6.54.12's hierarchy correction from `hierarchy.json`
+  and checks that base × correction reproduces the stored array. It stops
+  with an error if they disagree.
+- **On the 16k world:** the match is within 8e-7 relative error and nothing
+  is clamped, so p_i covers [5e-4, 0.4] in Zipf order.
+- **Tests:** a hand-computed 4-feature world in `tests/test_e02_zoo.py`.
+  Also, `tests/test_e15.py` now skips when torch is missing (installing
+  safetensors had made it run and fail).
+- **What it changes:** only the `p` covariate in the E02 histories (E07
+  x1, the exploratory p→π curve). It does not change H2a–H2d. The R001
+  `inventory.json` keeps the stored rates (p_max 0.915) as the run's
+  record.

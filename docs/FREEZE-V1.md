@@ -70,8 +70,9 @@ into `main`. Branch `santosh/prereg-v1.0-freeze` now carries it.
   findings, both outside the locked text:
   - The Hugging Face world is v1 (`scale_children_by_parent=false`).
   - Its `firing_probabilities` are compensated per-feature rates, not
-    marginal p_i. `zoo.py histories` must derive the marginal p_i before
-    R002 (this affects only the E07 covariate and the exploratory p→π curve).
+    marginal p_i. Fixed on 2026-11-23: `zoo.py` now rebuilds the marginal
+    p_i from the config. This affects only the E07 covariate and the
+    exploratory p→π curve.
 - **Gap, to decide together:** `tools/notebook.py freeze` hash-locks
   experiment pages only. `PREREGISTRATION.md`, which holds every
   threshold, is protected by the tag, release and DOI, but `check` would

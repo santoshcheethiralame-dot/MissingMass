@@ -28,7 +28,7 @@ the vocabulary in `docs/GLOSSARY.md` ("failure mode", "catcher", "run",
   candidate and E02-R001 cells merged; E02/E05 §2 carry the agreed
   wording; §2a now inside the lock; dry run passed). Open: Kushal on
   items 5/6/18 (4 stands on his review); E02-R001 done 2026-11-22 (175 SAEs,
-  none missing; E02/E03 stay in v1.0; fix marginal p_i before R002); `PREREGISTRATION.md` has no hash lock. Status note in
+  none missing; E02/E03 stay in v1.0; `zoo.py` p_i fixed to marginal); `PREREGISTRATION.md` has no hash lock. Status note in
   `docs/FREEZE-V1.md`. H3 done; E08-R001 and E10-R002 pilots ready for
   Kaggle.
 

@@ -61,10 +61,53 @@ def load_tensors(path):
     return load_file(str(path))
 
 
+def marginal_p(stored, cfg, hier):
+    """Marginal firing probability p_i (E02 §2: from the generator config).
+
+    With ``compensate_probabilities`` SAELens stores base p x a hierarchy
+    correction (1 / parent base p, times 1 + sibling base p / parent base p
+    in mutually exclusive groups), so that the sampled marginal rate is about
+    the base p. The base p is the Zipf curve in the config; it is rebuilt here
+    and checked against the stored array (E02-R001, 2026-11-22: max relative
+    error 8e-7 on the 16k world)."""
+    stored = np.asarray(stored, np.float64)
+    if not cfg or not cfg.get("hierarchy", {}).get("compensate_probabilities"):
+        return stored
+    fp, n = cfg["firing_probability"], len(stored)
+    if fp.get("generator_name") != "zipfian":
+        sys.exit(f"compensated world with a {fp.get('generator_name')} generator: marginal p_i not implemented")
+    q = (1 / np.arange(1, n + 1, dtype=np.float32) ** np.float32(fp["exponent"])).astype(np.float32)
+    base = (fp["min_prob"] + (fp["max_prob"] - fp["min_prob"]) * (q - q.min()) / (q.max() - q.min())).astype(np.float64)
+    corr = np.ones(n)
+
+    def walk(node, parent_p):
+        i = node.get("feature_index")
+        p = parent_p if i is None else base[i]
+        if i is not None and parent_p > 0:
+            corr[i] = 1 / parent_p
+        for c in node["children"]:
+            walk(c, p)
+        kids = [c["feature_index"] for c in node["children"] if c.get("feature_index") is not None]
+        if node.get("mutually_exclusive_children") and len(kids) >= 2 and p > 0:
+            tot = base[kids].sum()
+            for k in kids:
+                corr[k] *= 1 + max(0.0, tot - base[k]) / p
+
+    for root in hier["roots"]:
+        walk(root, 1.0)
+    if not np.allclose(np.minimum(base * corr, 1.0), stored, rtol=1e-5, atol=0):
+        sys.exit("stored firing_probabilities do not match the config's Zipf curve x hierarchy correction")
+    return base
+
+
 def load_world(d):
     f = next(Path(d).rglob("synthetic_model.safetensors"))
     t = load_tensors(f)
-    return t["feature_vectors"].astype(np.float32), t["firing_probabilities"].astype(np.float64), f
+    cfg, hier = (f.parent / "synthetic_model_config.json"), (f.parent / "hierarchy.json")
+    cfg = json.loads(cfg.read_text(encoding="utf-8")) if cfg.exists() else None
+    hier = json.loads(hier.read_text(encoding="utf-8")) if hier.exists() else None
+    p = marginal_p(t["firing_probabilities"], cfg, hier)
+    return t["feature_vectors"].astype(np.float32), p, f
 
 
 def zoo_index(d):
