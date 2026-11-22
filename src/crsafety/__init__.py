@@ -16,6 +16,8 @@ from .estimators import (
     huggins_ci,
     ice,
     ichao2,
+    chiu_chao_q1,
+    chao2_adj,
     jackknife,
     report,
 )
@@ -26,6 +28,6 @@ __all__ = [
     "IncidenceData", "betabinomial_nof1", "bootstrap", "chao2", "chao2_ci", "chapman", "chapman_pairs",
     "closedp", "coverage", "coverage_interval", "delta_interval", "darroch_mt", "extrapolate", "generalized_chao",
     "good_turing_coverage", "huggins", "huggins_ci", "loglinear",
-    "ice", "ichao2", "jackknife", "report",
+    "ice", "ichao2", "chiu_chao_q1", "chao2_adj", "jackknife", "report",
 ]
 __version__ = "0.1.0"

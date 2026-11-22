@@ -73,10 +73,27 @@ into `main`. Branch `santosh/prereg-v1.0-freeze` now carries it.
     marginal p_i. Fixed on 2026-11-23: `zoo.py` now rebuilds the marginal
     p_i from the config. This affects only the E07 covariate and the
     exploratory p→π curve.
-- **Gap, to decide together:** `tools/notebook.py freeze` hash-locks
-  experiment pages only. `PREREGISTRATION.md`, which holds every
-  threshold, is protected by the tag, release and DOI, but `check` would
-  not catch an edit to it after the freeze.
+- **Gap, to decide together (option ready 2026-11-23):**
+  `PREREGISTRATION.md` holds every threshold but was not hash-locked.
+  - It now has a prereg block covering §0–8. `notebook.py freeze PREREG`
+    locks it, and `check` then fails on any edit that has no DEVIATIONS
+    entry.
+  - A dry run in a throwaway worktree confirmed this.
+  - Nothing is locked until one of us runs it. Decide whether to include
+    it in the v1.0 chain.
+- **New decision: E05 (c) Chiu-Chao (Q-D10 answered 2026-11-23).** The
+  formula is now in the library (`chiu_chao_q1`, `chao2_adj`; Eq. 5 and
+  6a/6b, incidence n → K). It is not validated in E00.
+  - Option A: keep §2 as written ((c) not run; `breakaway_nof1` is the
+    f1-free option).
+  - Option B: reinstate (c) before the lock and add an E00 check first.
+  - Note: Eq. 5 drops a finite-sample factor that matters at K = 5, and
+    Q4 is often 0 at K = 5.
+- **World version settled (E02-R001):** the zoo was trained on the v2
+  world. The v1 and v2 weight files are identical, so the R001 inventory
+  and the decoder oracle hold for both. Activations now default to v2
+  (`zoo.WORLD_REPO`). E02 §2 already says activation measures are
+  computed under both versions.
 - **Dates:** v1.0 and v1.1 (about Nov 22) have both slipped; new dates are
   for the next sync.
 

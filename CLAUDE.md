@@ -137,6 +137,7 @@ python tools/notebook.py set E01-R001 status=running
 python tools/notebook.py set E01-R001 status=succeeded summary="<the number that matters>"
 python tools/notebook.py render && python tools/notebook.py check
 python tools/notebook.py freeze E01 --note "prereg v1; reviewed by Kushal"
+python tools/notebook.py freeze PREREG --note "..."   # locks docs/PREREGISTRATION.md §0–8 (if agreed)
 ```
 
 On Windows, set `PYTHONUTF8=1` before redirecting a script's output to a

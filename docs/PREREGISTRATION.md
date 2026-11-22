@@ -41,6 +41,7 @@ Structure follows the OSF preregistration template plus the OSF
 secondary-data questions on prior knowledge. Simulation parts follow ADEMP
 (Morris, White and Crowther 2019; ADEMP-PreReg, Siepe et al. 2024).
 
+<!-- prereg:start -->
 ## 0. Prior knowledge (what we had seen before freezing)
 
 This is not a blind start. Before v1.0 we had seen:
@@ -240,6 +241,8 @@ extension (E18), with its own pre-registration.
   prominence as positive ones.
 - Code, configs, and the per-run detection matrices will be released.
   Attack payloads are not released (see [`DISCLOSURE.md`](DISCLOSURE.md)).
+
+<!-- prereg:end -->
 
 ## Changelog
 

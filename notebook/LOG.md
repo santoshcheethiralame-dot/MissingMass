@@ -1468,3 +1468,37 @@ it.
 
 **Next:** round 1 (Santosh) is due today, 2026-11-23. Kushal to accept
 D-018.
+
+## 2026-11-23 (later): Q-D10 answered, world version settled, PREREG lock option
+
+Santosh.
+
+**Did:**
+- **Q-D10 (Chiu-Chao 2016):** read the PeerJ page in a browser (curl gets
+  403).
+  - Eq. 5: Q̂1 = 2Q2²/(3Q3) + 2Q2(Q2/(3Q3) − Q3/(4Q4)). Adjusted Chao2:
+    Eq. 6a, or 6b when Q2 = 0.
+  - Added `chiu_chao_q1` and `chao2_adj` to `crsafety.estimators`
+    (incidence, n → K; hand-computed tests). Not validated in E00.
+  - Whether E05 (c) and E04 H4c use them is a new freeze decision
+    (FREEZE-V1).
+- **Q-D2 (world version):**
+  - All 175 zoo `runner_config.json` files have
+    `scale_children_by_parent=true`, so the zoo was trained on the v2
+    world. The v1 card has a deprecation notice saying the same.
+  - The v1 and v2 `synthetic_model.safetensors` have the same SHA-256.
+    Only `hierarchy.json`/config differ (the 2,688 parent flags). So the
+    R001 inventory, the decoder oracle and p_i hold for both.
+  - `zoo.WORLD_REPO` is now v2. That is the default for `fire_counts.py`,
+    `act_corr.py` and `bakeoff.py`.
+- **Q-D1:** answered for this laptop (Hugging Face and arXiv reachable).
+- **Q-D8:** zoo MIT; the world cards state no licence.
+- **PREREG lock option:**
+  - `notebook.py freeze PREREG` locks `docs/PREREGISTRATION.md` §0–8,
+    which are now inside a prereg block.
+  - Dry run: after the lock, an edit to §3 fails `check`. The E05 hash is
+    unchanged.
+  - Nothing is locked yet; to decide at the freeze.
+
+**No GPU on this laptop:** runbook rows 2–4 and `fire_counts` stay on
+Kaggle.

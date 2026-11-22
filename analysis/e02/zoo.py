@@ -40,7 +40,11 @@ sys.path.insert(0, str(ROOT / "src"))
 from crsafety import matching as mt  # noqa: E402
 from crsafety.histories import check_cell, write_cell  # noqa: E402
 
-WORLD_REPO = "decoderesearch/synth-sae-bench-16k-v1"
+# v2: the world the zoo was trained on (all 175 runner_config.json files have
+# scale_children_by_parent=true; the v1 card says v1 lacks it). v1 and v2 ship
+# the same synthetic_model.safetensors (same SHA-256), so decoder-based truth
+# and p_i are identical; only activations (fire_counts, act_corr) differ.
+WORLD_REPO = "decoderesearch/synth-sae-bench-16k-v2"
 ZOO_REPO = "decoderesearch/synth-sae-bench-16k-v1-saes"
 SAE_RE = re.compile(r"(?:^|/)(?P<arch>[^/]+)/l0-(?P<l0>\d+)/seed-(?P<seed>\d+)/sae_weights\.safetensors$")
 TAU_GT = (0.5, 0.6, 0.7, 0.8, 0.9)

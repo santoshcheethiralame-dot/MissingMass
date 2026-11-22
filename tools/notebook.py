@@ -26,6 +26,7 @@ NB = ROOT / "notebook"
 RUNS = NB / "runs.csv"
 LOCKS = NB / "prereg-locks.csv"
 EXP_DIR = NB / "experiments"
+PREREG_PAGE = ROOT / "docs" / "PREREGISTRATION.md"  # locked as "PREREG"
 
 FIELDS = [
     "run_id", "experiment", "title", "owner", "status", "started", "finished",
@@ -87,7 +88,17 @@ def experiment_pages():
     return pages
 
 
+def lockable_pages():
+    """Experiment pages plus the study pre-registration (id PREREG)."""
+    pages = experiment_pages()
+    if PREREG_PAGE.exists():
+        pages["PREREG"] = PREREG_PAGE
+    return pages
+
+
 def norm_exp(exp):
+    if exp.upper() == "PREREG":
+        return "PREREG"
     m = re.fullmatch(r"[Ee]?(\d{1,2})", exp)
     if not m:
         sys.exit(f"bad experiment id: {exp}")
@@ -190,7 +201,7 @@ def cmd_render(_args):
 
 def cmd_freeze(args):
     exp = norm_exp(args.experiment)
-    page = experiment_pages().get(exp)
+    page = lockable_pages().get(exp)
     if page is None:
         sys.exit(f"no page for {exp}")
     h = prereg_hash(page)
@@ -229,8 +240,9 @@ def cmd_check(_args):
     for lock in read_csv(LOCKS, LOCK_FIELDS):
         latest[lock["experiment"]] = lock
     deviations = (NB / "DEVIATIONS.md").read_text(encoding="utf-8") if (NB / "DEVIATIONS.md").exists() else ""
+    lockable = lockable_pages()
     for exp, lock in latest.items():
-        page = pages.get(exp)
+        page = lockable.get(exp)
         if page is None:
             errors.append(f"lock for missing experiment {exp}")
             continue
@@ -272,7 +284,7 @@ def main():
     p = sub.add_parser("render", help="refresh run tables in the experiment pages and registry")
     p.set_defaults(func=cmd_render)
 
-    p = sub.add_parser("freeze", help="lock an experiment's pre-registration block")
+    p = sub.add_parser("freeze", help="lock an experiment's pre-registration block (EXX, or PREREG for docs/PREREGISTRATION.md)")
     p.add_argument("experiment")
     p.add_argument("--note")
     p.set_defaults(func=cmd_freeze)
